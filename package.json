@@ -1,0 +1,32 @@
+{
+  "name": "agentia-modular",
+  "version": "0.0.0",
+  "description": "A lazy dependency injection framework for Node.js",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AgentiaSystems/agentia-modular.git"
+  },
+  "keywords": [
+    "dependency",
+    "injection",
+    "lazy",
+    "framework",
+    "node",
+    "nodejs",
+    "module",
+    "factory"
+  ],
+  "author": "Johnny Estilles <johnny.estilles@agentia.asia> (http://www.agentia.asia)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AgentiaSystems/agentia-modular/issues"
+  },
+  "homepage": "https://github.com/AgentiaSystems/agentia-modular"
+}
