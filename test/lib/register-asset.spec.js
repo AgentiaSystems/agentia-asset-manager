@@ -18,9 +18,15 @@ describe('Modular.registerAsset()', function() {
     modular = null;
   });
 
-  it('should register an asset', function () {
+  it('should register a new asset', function () {
     modular.registerAsset(new Asset('id', 'value', { constant: true }));
     expect(modular.resolve('id')).to.equal('value');
+  });
+
+  it('should register replace an existing asset', function () {
+    modular.registerAsset(new Asset('id', 'value1', { constant: true }));
+    modular.registerAsset(new Asset('id', 'value2', { constant: true }));
+    expect(modular.resolve('id')).to.equal('value2');
   });
 
   it('should throw an error, when called one argument', function() {
