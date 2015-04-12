@@ -44,6 +44,7 @@ describe('Helpers', function() {
     var modular;
     var is = 'is';
     var isnot = 'isnot';
+    var invalid = 'invalid';
 
     before(function() {
       modular = new Modular();
@@ -65,6 +66,10 @@ describe('Helpers', function() {
       expect(modular.isConstant(isnot)).to.be.false;
     });
 
+    it('should return false for non-existing dependencies', function() {
+      expect(modular.isConstant(invalid)).to.be.false;
+    });
+
     it('should throw an error, when called with arguments', function() {
       expect(function() {
         modular.isConstant();
@@ -77,6 +82,7 @@ describe('Helpers', function() {
     var modular;
     var is = 'is';
     var isnot = 'isnot';
+    var invalid = 'invalid';
 
     before(function() {
       modular = new Modular();
@@ -98,6 +104,10 @@ describe('Helpers', function() {
       expect(modular.isModule(isnot)).to.be.false;
     });
 
+    it('should return false for non-existing dependencies', function() {
+      expect(modular.isModule(invalid)).to.be.false;
+    });
+
     it('should throw an error, when called with arguments', function() {
       expect(function() {
         modular.isModule();
@@ -110,6 +120,7 @@ describe('Helpers', function() {
     var modular;
     var is = 'is';
     var isnot = 'isnot';
+    var invalid = 'invalid';
 
     before(function() {
       modular = new Modular();
@@ -131,6 +142,10 @@ describe('Helpers', function() {
       expect(modular.isFunction(isnot)).to.be.false;
     });
 
+    it('should return false for non-existing dependencies', function() {
+      expect(modular.isFunction(invalid)).to.be.false;
+    });
+
     it('should throw an error, when called with arguments', function() {
       expect(function() {
         modular.isFunction();
@@ -143,6 +158,7 @@ describe('Helpers', function() {
     var modular;
     var is = 'is';
     var isnot = 'isnot';
+    var invalid = 'invalid';
 
     before(function() {
       modular = new Modular();
@@ -162,6 +178,10 @@ describe('Helpers', function() {
 
     it('should return false for non-function dependencies', function() {
       expect(modular.isInjectable(isnot)).to.be.false;
+    });
+
+    it('should return false for non-existing dependencies', function() {
+      expect(modular.isInjectable(invalid)).to.be.false;
     });
 
     it('should throw an error, when called with arguments', function() {
