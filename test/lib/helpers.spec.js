@@ -4,190 +4,249 @@ var chai = require('chai');
 var expect = chai.expect;
 
 var Modular = require('../../');
+var Asset = require('../../lib/asset');
 var errors = require('../../lib/errors');
+var helpers = require('../../lib/helpers');
 
 describe('Helpers', function() {
 
-  describe('Modular.isRegistered()', function() {
-    var modular;
-    var is = 'is';
-    var isnot = 'isnot';
+  describe('General Use', function() {
 
-    before(function() {
-      modular = new Modular();
-      modular.registerConstant(is, 'value');
+    describe('.checkMustBeString()', function() {
+
+      it('should return silently if check succedes', function() {
+        expect(function() {
+          helpers.checkMustBeString('value', 'id');
+        }).to.not.throw;
+      });
+
+      it('should throw an error if check fails', function() {
+        expect(function() {
+          helpers.checkMustBeString(1234, 'id');
+        }).to.not.throw;
+      });
+
     });
 
-    after(function() {
-      modular.remove(is);
-      modular.remove(isnot);
-      modular = null;
+    describe('.checkMinArgs()', function() {
+
+      it('should return silently if check succedes', function() {
+        expect(function() {
+          helpers.checkMinArgs([1, 2, 3], 3);
+        }).to.not.throw;
+      });
+
+      it('should throw an error if check fails', function() {
+        expect(function() {
+          helpers.checkMinArgs([1, 2], 3);
+        }).to.not.throw;
+      });
+
     });
 
-    it('should return true for existing dependencies', function() {
-      expect(modular.isRegistered(is)).to.be.true;
-    });
+    describe('.checkMustBeAsset()', function() {
+      var asset = new Asset('id', 'value', { constant: true });
 
-    it('should return false for non-existing dependencies', function() {
-      expect(modular.isRegistered(isnot)).to.be.false;
-    });
+      it('should return silently if check succedes', function() {
+        expect(function() {
+          helpers.checkMustBeAsset(asset, 'id');
+        }).to.not.throw;
+      });
 
-    it('should throw an error, when called with arguments', function() {
-      expect(function() {
-        modular.isRegistered();
-      }).to.throw(errors.MustBeString);
-    });
+      it('should throw an error if check fails', function() {
+        expect(function() {
+          helpers.checkMustBeAsset({}, 'id');
+        }).to.not.throw;
+      });
 
-  });
-
-  describe('Modular.isConstant()', function() {
-    var modular;
-    var is = 'is';
-    var isnot = 'isnot';
-    var invalid = 'invalid';
-
-    before(function() {
-      modular = new Modular();
-      modular.registerConstant(is, 'value');
-      modular.registerFunction(isnot, function() {}, true);
-    });
-
-    after(function() {
-      modular.remove(is);
-      modular.remove(isnot);
-      modular = null;
-    });
-
-    it('should return true for constant dependencies', function() {
-      expect(modular.isConstant(is)).to.be.true;
-    });
-
-    it('should return false for non-constant dependencies', function() {
-      expect(modular.isConstant(isnot)).to.be.false;
-    });
-
-    it('should return false for non-existing dependencies', function() {
-      expect(modular.isConstant(invalid)).to.be.false;
-    });
-
-    it('should throw an error, when called with arguments', function() {
-      expect(function() {
-        modular.isConstant();
-      }).to.throw(errors.MustBeString);
     });
 
   });
 
-  describe('Modular.isModule()', function() {
-    var modular;
-    var is = 'is';
-    var isnot = 'isnot';
-    var invalid = 'invalid';
+  describe('Modular Class', function() {
 
-    before(function() {
-      modular = new Modular();
-      modular.registerModule(is, require.resolve('../fixtures/test-module-a'));
-      modular.registerFunction(isnot, function() {}, true);
+    describe('Modular.isRegistered()', function() {
+      var modular;
+      var is = 'is';
+      var isnot = 'isnot';
+
+      before(function() {
+        modular = new Modular();
+        modular.registerConstant(is, 'value');
+      });
+
+      after(function() {
+        modular.remove(is);
+        modular.remove(isnot);
+        modular = null;
+      });
+
+      it('should return true for existing dependencies', function() {
+        expect(modular.isRegistered(is)).to.be.true;
+      });
+
+      it('should return false for non-existing dependencies', function() {
+        expect(modular.isRegistered(isnot)).to.be.false;
+      });
+
+      it('should throw an error, when called with arguments', function() {
+        expect(function() {
+          modular.isRegistered();
+        }).to.throw(errors.MustBeString);
+      });
+
     });
 
-    after(function() {
-      modular.remove(is);
-      modular.remove(isnot);
-      modular = null;
+    describe('Modular.isConstant()', function() {
+      var modular;
+      var is = 'is';
+      var isnot = 'isnot';
+      var invalid = 'invalid';
+
+      before(function() {
+        modular = new Modular();
+        modular.registerConstant(is, 'value');
+        modular.registerFunction(isnot, function() {}, true);
+      });
+
+      after(function() {
+        modular.remove(is);
+        modular.remove(isnot);
+        modular = null;
+      });
+
+      it('should return true for constant dependencies', function() {
+        expect(modular.isConstant(is)).to.be.true;
+      });
+
+      it('should return false for non-constant dependencies', function() {
+        expect(modular.isConstant(isnot)).to.be.false;
+      });
+
+      it('should return false for non-existing dependencies', function() {
+        expect(modular.isConstant(invalid)).to.be.false;
+      });
+
+      it('should throw an error, when called with arguments', function() {
+        expect(function() {
+          modular.isConstant();
+        }).to.throw(errors.MustBeString);
+      });
+
     });
 
-    it('should return true for module dependencies', function() {
-      expect(modular.isModule(is)).to.be.true;
+    describe('Modular.isModule()', function() {
+      var modular;
+      var is = 'is';
+      var isnot = 'isnot';
+      var invalid = 'invalid';
+
+      before(function() {
+        modular = new Modular();
+        modular.registerModule(is, require.resolve('../fixtures/test-module-a'));
+        modular.registerFunction(isnot, function() {}, true);
+      });
+
+      after(function() {
+        modular.remove(is);
+        modular.remove(isnot);
+        modular = null;
+      });
+
+      it('should return true for module dependencies', function() {
+        expect(modular.isModule(is)).to.be.true;
+      });
+
+      it('should return false for non-module dependencies', function() {
+        expect(modular.isModule(isnot)).to.be.false;
+      });
+
+      it('should return false for non-existing dependencies', function() {
+        expect(modular.isModule(invalid)).to.be.false;
+      });
+
+      it('should throw an error, when called with arguments', function() {
+        expect(function() {
+          modular.isModule();
+        }).to.throw(errors.MustBeString);
+      });
+
     });
 
-    it('should return false for non-module dependencies', function() {
-      expect(modular.isModule(isnot)).to.be.false;
+    describe('Modular.isFunction()', function() {
+      var modular;
+      var is = 'is';
+      var isnot = 'isnot';
+      var invalid = 'invalid';
+
+      before(function() {
+        modular = new Modular();
+        modular.registerFunction(is, function() {}, true);
+        modular.registerConstant(isnot, 'value');
+      });
+
+      after(function() {
+        modular.remove(is);
+        modular.remove(isnot);
+        modular = null;
+      });
+
+      it('should return true for function dependencies', function() {
+        expect(modular.isFunction(is)).to.be.true;
+      });
+
+      it('should return false for non-function dependencies', function() {
+        expect(modular.isFunction(isnot)).to.be.false;
+      });
+
+      it('should return false for non-existing dependencies', function() {
+        expect(modular.isFunction(invalid)).to.be.false;
+      });
+
+      it('should throw an error, when called with arguments', function() {
+        expect(function() {
+          modular.isFunction();
+        }).to.throw(errors.MustBeString);
+      });
+
     });
 
-    it('should return false for non-existing dependencies', function() {
-      expect(modular.isModule(invalid)).to.be.false;
-    });
+    describe('Modular.isInjectable()', function() {
+      var modular;
+      var is = 'is';
+      var isnot = 'isnot';
+      var invalid = 'invalid';
 
-    it('should throw an error, when called with arguments', function() {
-      expect(function() {
-        modular.isModule();
-      }).to.throw(errors.MustBeString);
-    });
+      before(function() {
+        modular = new Modular();
+        modular.registerFunction(is, function() {}, true);
+        modular.registerFunction(isnot, function() {}, false);
+      });
 
-  });
+      after(function() {
+        modular.remove(is);
+        modular.remove(isnot);
+        modular = null;
+      });
 
-  describe('Modular.isFunction()', function() {
-    var modular;
-    var is = 'is';
-    var isnot = 'isnot';
-    var invalid = 'invalid';
+      it('should return true for function dependencies', function() {
+        expect(modular.isInjectable(is)).to.be.true;
+      });
 
-    before(function() {
-      modular = new Modular();
-      modular.registerFunction(is, function() {}, true);
-      modular.registerConstant(isnot, 'value');
-    });
+      it('should return false for non-function dependencies', function() {
+        expect(modular.isInjectable(isnot)).to.be.false;
+      });
 
-    after(function() {
-      modular.remove(is);
-      modular.remove(isnot);
-      modular = null;
-    });
+      it('should return false for non-existing dependencies', function() {
+        expect(modular.isInjectable(invalid)).to.be.false;
+      });
 
-    it('should return true for function dependencies', function() {
-      expect(modular.isFunction(is)).to.be.true;
-    });
+      it('should throw an error, when called with arguments', function() {
+        expect(function() {
+          modular.isInjectable();
+        }).to.throw(errors.MustBeString);
+      });
 
-    it('should return false for non-function dependencies', function() {
-      expect(modular.isFunction(isnot)).to.be.false;
-    });
-
-    it('should return false for non-existing dependencies', function() {
-      expect(modular.isFunction(invalid)).to.be.false;
-    });
-
-    it('should throw an error, when called with arguments', function() {
-      expect(function() {
-        modular.isFunction();
-      }).to.throw(errors.MustBeString);
-    });
-
-  });
-
-  describe('Modular.isInjectable()', function() {
-    var modular;
-    var is = 'is';
-    var isnot = 'isnot';
-    var invalid = 'invalid';
-
-    before(function() {
-      modular = new Modular();
-      modular.registerFunction(is, function() {}, true);
-      modular.registerFunction(isnot, function() {}, false);
-    });
-
-    after(function() {
-      modular.remove(is);
-      modular.remove(isnot);
-      modular = null;
-    });
-
-    it('should return true for function dependencies', function() {
-      expect(modular.isInjectable(is)).to.be.true;
-    });
-
-    it('should return false for non-function dependencies', function() {
-      expect(modular.isInjectable(isnot)).to.be.false;
-    });
-
-    it('should return false for non-existing dependencies', function() {
-      expect(modular.isInjectable(invalid)).to.be.false;
-    });
-
-    it('should throw an error, when called with arguments', function() {
-      expect(function() {
-        modular.isInjectable();
-      }).to.throw(errors.MustBeString);
     });
 
   });
