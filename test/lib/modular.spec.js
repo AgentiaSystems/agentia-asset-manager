@@ -18,6 +18,10 @@ describe('Modular()', function() {
 
   describe('API', function() {
 
+    it('should expose .registerAsset()', function() {
+      expect(modular).to.have.property('registerAsset').that.is.a('function');
+    });
+
     it('should expose .registerFunction()', function() {
       expect(modular).to.have.property('registerFunction').that.is.a('function');
     });

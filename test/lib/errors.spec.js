@@ -39,4 +39,8 @@ describe('Errors', function() {
     expect(new errors.AssetNotFound()).to.be.an.instanceOf(Error);
   });
 
+  it('should expose an MustBeAsset error', function() {
+    expect(new errors.MustBeAsset()).to.be.an.instanceOf(Error);
+  });
+
 });
