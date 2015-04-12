@@ -82,13 +82,13 @@ describe('Modular.registerConstant()', function() {
     it('should throw an error, when called with no arguments', function() {
       expect(function () {
         modular.registerConstant();
-      }).to.throw(errors.InvalidArgunelts);
+      }).to.throw(errors.InvalidArguments);
     });
 
     it('should throw an error, when called one argument', function() {
       expect(function() {
         modular.registerConstant('id');
-      }).to.throw(errors.InvalidArgunelts);
+      }).to.throw(errors.InvalidArguments);
     });
 
     it('should throw an error, when id argument not a string', function() {
