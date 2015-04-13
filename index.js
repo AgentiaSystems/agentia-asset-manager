@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('./lib/modular');
+module.exports = require('./lib/asset-manager');
