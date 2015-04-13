@@ -3,7 +3,7 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var Modular = require('../../');
+var AssetManager = require('../../');
 var Asset = require('../../lib/asset');
 var errors = require('../../lib/errors');
 var helpers = require('../../lib/helpers');
@@ -63,15 +63,15 @@ describe('Helpers', function() {
 
   });
 
-  describe('Modular Class', function() {
+  describe('AssetManager Class', function() {
 
-    describe('Modular.isRegistered()', function() {
+    describe('AssetManager.isRegistered()', function() {
       var modular;
       var is = 'is';
       var isnot = 'isnot';
 
       before(function() {
-        modular = new Modular();
+        modular = new AssetManager();
         modular.registerConstant(is, 'value');
       });
 
@@ -97,14 +97,14 @@ describe('Helpers', function() {
 
     });
 
-    describe('Modular.isConstant()', function() {
+    describe('AssetManager.isConstant()', function() {
       var modular;
       var is = 'is';
       var isnot = 'isnot';
       var invalid = 'invalid';
 
       before(function() {
-        modular = new Modular();
+        modular = new AssetManager();
         modular.registerConstant(is, 'value');
         modular.registerFunction(isnot, function() {}, true);
       });
@@ -135,14 +135,14 @@ describe('Helpers', function() {
 
     });
 
-    describe('Modular.isModule()', function() {
+    describe('AssetManager.isModule()', function() {
       var modular;
       var is = 'is';
       var isnot = 'isnot';
       var invalid = 'invalid';
 
       before(function() {
-        modular = new Modular();
+        modular = new AssetManager();
         modular.registerModule(is, require.resolve('../fixtures/test-module-a'));
         modular.registerFunction(isnot, function() {}, true);
       });
@@ -173,14 +173,14 @@ describe('Helpers', function() {
 
     });
 
-    describe('Modular.isFunction()', function() {
+    describe('AssetManager.isFunction()', function() {
       var modular;
       var is = 'is';
       var isnot = 'isnot';
       var invalid = 'invalid';
 
       before(function() {
-        modular = new Modular();
+        modular = new AssetManager();
         modular.registerFunction(is, function() {}, true);
         modular.registerConstant(isnot, 'value');
       });
@@ -211,14 +211,14 @@ describe('Helpers', function() {
 
     });
 
-    describe('Modular.isInjectable()', function() {
+    describe('AssetManager.isInjectable()', function() {
       var modular;
       var is = 'is';
       var isnot = 'isnot';
       var invalid = 'invalid';
 
       before(function() {
-        modular = new Modular();
+        modular = new AssetManager();
         modular.registerFunction(is, function() {}, true);
         modular.registerFunction(isnot, function() {}, false);
       });

@@ -3,13 +3,13 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var Modular = require('../../');
+var AssetManager = require('../../');
 var errors = require('../../lib/errors');
 
-describe('Modular.registerHash()', function() {
+describe('AssetManager.registerHash()', function() {
 
   describe('registering an object hash (with injection disabled)', function() {
-    var modular = new Modular();
+    var modular = new AssetManager();
     var hash = {
       key1: 'value1',
       key2: 123,
@@ -46,7 +46,7 @@ describe('Modular.registerHash()', function() {
   });
 
   describe('registering an object hash (with injection enabled)', function() {
-    var modular = new Modular();
+    var modular = new AssetManager();
     var hash = {
       key1: 'value1',
       key2: 123,
@@ -88,7 +88,7 @@ describe('Modular.registerHash()', function() {
     var modular;
 
     beforeEach(function() {
-      modular = new Modular();
+      modular = new AssetManager();
     });
 
     afterEach(function() {

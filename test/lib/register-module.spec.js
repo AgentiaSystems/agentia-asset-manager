@@ -3,15 +3,15 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var Modular = require('../../');
+var AssetManager = require('../../');
 var errors = require('../../lib/errors');
 
-describe('Modular.registerModule()', function() {
+describe('AssetManager.registerModule()', function() {
 
   describe('registering a non-injectable module asset', function() {
 
     describe('with id', function() {
-      var modular = new Modular();
+      var modular = new AssetManager();
       var id = 'module';
       var modulePath = require.resolve('../fixtures/test-module-a');
       modular.registerModule(id, modulePath);
@@ -27,7 +27,7 @@ describe('Modular.registerModule()', function() {
     });
 
     describe('without id', function() {
-      var modular = new Modular();
+      var modular = new AssetManager();
       var id = 'testModuleA';
       var modulePath = require.resolve('../fixtures/test-module-a');
       modular.registerModule(modulePath);
@@ -47,7 +47,7 @@ describe('Modular.registerModule()', function() {
   describe('registering a injectable module asset', function() {
 
     describe('with id', function() {
-      var modular = new Modular();
+      var modular = new AssetManager();
       var id = 'module';
       var modulePath = require.resolve('../fixtures/test-module-a');
       modular.registerConstant('a', 1);
@@ -65,7 +65,7 @@ describe('Modular.registerModule()', function() {
     });
 
     describe('without id', function() {
-      var modular = new Modular();
+      var modular = new AssetManager();
       var id = 'testModuleA';
       var moduleA = require.resolve('../fixtures/test-module-a');
       modular.registerConstant('a', 1);
@@ -83,7 +83,7 @@ describe('Modular.registerModule()', function() {
     });
 
     describe('requires another module', function() {
-      var modular = new Modular();
+      var modular = new AssetManager();
       var id = 'module';
       var moduleA = require.resolve('../fixtures/test-module-a');
       var moduleB = require.resolve('../fixtures/test-module-b');
@@ -108,7 +108,7 @@ describe('Modular.registerModule()', function() {
     var modular;
 
     beforeEach(function() {
-      modular = new Modular();
+      modular = new AssetManager();
     });
 
     afterEach(function() {

@@ -3,13 +3,13 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var Modular = require('../../');
+var AssetManager = require('../../');
 var errors = require('../../lib/errors');
 
-describe('Modular.registerFunction()', function() {
+describe('AssetManager.registerFunction()', function() {
 
   describe('registering a function asset (injectable)', function() {
-    var modular = new Modular();
+    var modular = new AssetManager();
     var data = 21;
     var id = 'id';
     var fn = function(age) {
@@ -29,7 +29,7 @@ describe('Modular.registerFunction()', function() {
   });
 
   describe('registering a function asset (non-injectable)', function () {
-    var modular = new Modular();
+    var modular = new AssetManager();
     var id = 'id';
     var fn = function(age) {
       return age;
@@ -50,7 +50,7 @@ describe('Modular.registerFunction()', function() {
     var modular;
 
     beforeEach(function() {
-      modular = new Modular();
+      modular = new AssetManager();
     });
 
     afterEach(function() {

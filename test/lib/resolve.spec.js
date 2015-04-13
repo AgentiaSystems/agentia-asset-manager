@@ -3,10 +3,10 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var Modular = require('../../');
+var AssetManager = require('../../');
 var errors = require('../../lib/errors');
 
-describe('Modular.resolve()', function() {
+describe('AssetManager.resolve()', function() {
   var modular;
 
   describe('resolving an existing asset', function() {
@@ -16,7 +16,7 @@ describe('Modular.resolve()', function() {
       var value = 'value';
 
       before(function() {
-        modular = new Modular();
+        modular = new AssetManager();
         modular.registerConstant(id, value);
       });
 
@@ -39,7 +39,7 @@ describe('Modular.resolve()', function() {
       };
 
       before(function() {
-        modular = new Modular();
+        modular = new AssetManager();
         modular.registerConstant(id, value);
       });
 
@@ -65,7 +65,7 @@ describe('Modular.resolve()', function() {
       };
 
       before(function() {
-        modular = new Modular();
+        modular = new AssetManager();
         modular.registerFunction(id, fn);
         modular.registerConstant('a', 1);
         modular.registerConstant('b', 2);
@@ -95,7 +95,7 @@ describe('Modular.resolve()', function() {
       };
 
       before(function() {
-        modular = new Modular();
+        modular = new AssetManager();
         modular.registerFunction(id, fn);
         modular.registerConstant('a', 1);
         modular.registerConstant('b', 2);
@@ -126,7 +126,7 @@ describe('Modular.resolve()', function() {
       };
 
       before(function() {
-        modular = new Modular();
+        modular = new AssetManager();
         modular.registerFunction('resultA', fnA, true);
         modular.registerFunction('resultB', fnB, true);
         modular.registerConstant('a', 1);
@@ -161,7 +161,7 @@ describe('Modular.resolve()', function() {
       };
 
       before(function() {
-        modular = new Modular();
+        modular = new AssetManager();
         modular.registerFunction('resultA', fnA, true);
         modular.registerFunction('resultB', fnB, true);
         modular.registerFunction('resultC', fnC, true);
@@ -193,7 +193,7 @@ describe('Modular.resolve()', function() {
   describe('calling .resolve() with invalid arguments', function() {
 
     beforeEach(function() {
-      modular = new Modular();
+      modular = new AssetManager();
     });
 
     afterEach(function() {

@@ -3,17 +3,17 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var Modular = require('../../lib/modular');
+var AssetManager = require('../../lib/asset-manager');
 
-describe('Modular()', function() {
-  var modular = new Modular();
+describe('AssetManager()', function() {
+  var modular = new AssetManager();
 
   it('should be a function', function() {
-    expect(Modular).to.be.a('function');
+    expect(AssetManager).to.be.a('function');
   });
 
-  it('should be a factory of Modular objects', function() {
-    expect(modular).to.be.an.instanceof(Modular);
+  it('should be a factory of AssetManager objects', function() {
+    expect(modular).to.be.an.instanceof(AssetManager);
   });
 
   describe('API', function() {

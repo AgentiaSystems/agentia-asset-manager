@@ -3,15 +3,15 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var Modular = require('../');
+var AssetManager = require('../');
 
-describe('Modular entry point', function() {
+describe('AssetManager entry point', function() {
 
-  it('should return a reference to Modular', function() {
-    var container = new Modular();
+  it('should return a reference to AssetManager', function() {
+    var container = new AssetManager();
 
-    expect(Modular).to.be.a('function');
-    expect(container).to.be.an.instanceof(Modular);
+    expect(AssetManager).to.be.a('function');
+    expect(container).to.be.an.instanceof(AssetManager);
   });
 
 });

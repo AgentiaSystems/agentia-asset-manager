@@ -8,15 +8,15 @@ var sinon = require('sinon');
 var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 
-var Modular = require('../../');
+var AssetManager = require('../../');
 var errors = require('../../lib/errors');
 
-describe('Modular.get()', function() {
+describe('AssetManager.get()', function() {
   var modular;
   var dependency = 'name';
 
   before(function() {
-    modular = new Modular();
+    modular = new AssetManager();
     sinon.stub(modular, 'resolve');
     modular.register(dependency, 'value');
     modular.get(dependency);
@@ -42,14 +42,14 @@ describe('Modular.get()', function() {
 
 });
 
-describe('Modular.load()', function() {
+describe('AssetManager.load()', function() {
 
   describe('loading a module', function() {
     var modular;
     var id = require.resolve('../fixtures/test-module-a');
 
     before(function() {
-      modular = new Modular();
+      modular = new AssetManager();
       sinon.stub(modular, 'registerModule');
       modular.load(id);
     });
@@ -75,7 +75,7 @@ describe('Modular.load()', function() {
     var id = path.resolve(path.dirname(module.id), '../fixtures');
 
     before(function() {
-      modular = new Modular();
+      modular = new AssetManager();
       sinon.stub(modular, 'registerFolder');
       modular.load(id);
     });
@@ -100,7 +100,7 @@ describe('Modular.load()', function() {
     var modular;
 
     beforeEach(function() {
-      modular = new Modular();
+      modular = new AssetManager();
     });
 
     afterEach(function() {

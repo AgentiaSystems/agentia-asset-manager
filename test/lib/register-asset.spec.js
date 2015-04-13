@@ -3,15 +3,15 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var Modular = require('../../');
+var AssetManager = require('../../');
 var Asset = require('../../lib/asset');
 var errors = require('../../lib/errors');
 
-describe('Modular.registerAsset()', function() {
+describe('AssetManager.registerAsset()', function() {
   var modular;
 
   before(function() {
-    modular = new Modular();
+    modular = new AssetManager();
   });
 
   after(function() {

@@ -3,13 +3,13 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var Modular = require('../../');
+var AssetManager = require('../../');
 var errors = require('../../lib/errors');
 
-describe('Modular.registerConstant()', function() {
+describe('AssetManager.registerConstant()', function() {
 
   describe('registering a constant dependency (string)', function() {
-    var modular = new Modular();
+    var modular = new AssetManager();
     var id = 'id';
     var data = 'data';
     modular.registerConstant(id, data);
@@ -29,7 +29,7 @@ describe('Modular.registerConstant()', function() {
   });
 
   describe('registering a constant dependency (object)', function() {
-    var modular = new Modular();
+    var modular = new AssetManager();
     var id = 'id';
     var data = { key: 'data' };
     modular.registerConstant(id, data);
@@ -49,7 +49,7 @@ describe('Modular.registerConstant()', function() {
   });
 
   describe('registering a constant dependency (array)', function() {
-    var modular = new Modular();
+    var modular = new AssetManager();
     var id = 'id';
     var data = [ 'data1', 'data2', 'data3' ];
     modular.registerConstant(id, data);
@@ -72,7 +72,7 @@ describe('Modular.registerConstant()', function() {
     var modular;
 
     beforeEach(function() {
-      modular = new Modular();
+      modular = new AssetManager();
     });
 
     afterEach(function() {
