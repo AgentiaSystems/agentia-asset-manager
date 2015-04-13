@@ -9,7 +9,7 @@ notifications:
 
 addons:
   code_climate:
-    repo_token: 23590cf69135805aeeefa7f497969c75a19c0216ac2d9124497e54a6c2c368ae
+    repo_token: f1f470708480edeb0868ea4755f603374df7c1122fdff3dda21be12d24ec4a31
 
 before_script:
   - npm install -g gulp
