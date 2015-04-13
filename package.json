@@ -1,5 +1,5 @@
 {
-  "name": "agentia-modular",
+  "name": "agentia-asset-manager",
   "version": "0.0.0",
   "description": "A lazy dependency injection framework for Node.js",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AgentiaSystems/agentia-modular.git"
+    "url": "https://github.com/AgentiaSystems/agentia-asset-manager.git"
   },
   "keywords": [
     "dependency",
@@ -26,9 +26,9 @@
   "author": "Johnny Estilles <johnny.estilles@agentia.asia> (http://www.agentia.asia)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AgentiaSystems/agentia-modular/issues"
+    "url": "https://github.com/AgentiaSystems/agentia-asset-manager/issues"
   },
-  "homepage": "https://github.com/AgentiaSystems/agentia-modular",
+  "homepage": "https://github.com/AgentiaSystems/agentia-asset-manager",
   "devDependencies": {
     "chai": "^2.2.0",
     "eslint": "^0.18.0",
