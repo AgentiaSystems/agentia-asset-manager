@@ -4,14 +4,14 @@ var chai = require('chai');
 var expect = chai.expect;
 var path = require('path');
 
-var Modular = require('../../');
+var AssetManager = require('../../');
 var errors = require('../../lib/errors');
 
-describe('Modular.registerFolder()', function() {
+describe('AssetManager.registerFolder()', function() {
 
   describe('registering a folder (with injection disabled)', function() {
     var folder = path.resolve(__dirname, '../fixtures');
-    var modular = new Modular();
+    var modular = new AssetManager();
     modular.registerFolder(folder);
 
     it('should register all the assets', function() {
@@ -36,7 +36,7 @@ describe('Modular.registerFolder()', function() {
 
   describe('registering a folder (with injection enabled)', function() {
     var folder = path.resolve(__dirname, '../fixtures');
-    var modular = new Modular();
+    var modular = new AssetManager();
     modular.registerConstant('a', 99);
     modular.registerConstant('b', 1);
     modular.registerFolder(folder, true);
@@ -62,7 +62,7 @@ describe('Modular.registerFolder()', function() {
     var modular;
 
     beforeEach(function() {
-      modular = new Modular();
+      modular = new AssetManager();
     });
 
     afterEach(function() {

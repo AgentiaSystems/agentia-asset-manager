@@ -3,15 +3,15 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var Modular = require('../../');
+var AssetManager = require('../../');
 var errors = require('../../lib/errors');
 
-describe('Modular.register()', function() {
+describe('AssetManager.register()', function() {
 
   describe('register a hash', function() {
 
     describe('with injection enabled (default)', function() {
-      var modular = new Modular();
+      var modular = new AssetManager();
       var hash = {
         key1: 'data1',
         key2: 123,
@@ -50,7 +50,7 @@ describe('Modular.register()', function() {
     });
 
     describe('with injection disabled', function() {
-      var modular = new Modular();
+      var modular = new AssetManager();
       var hash = {
         key1: 'data1',
         key2: 123,
@@ -91,7 +91,7 @@ describe('Modular.register()', function() {
   describe('register a function', function() {
 
     describe('with injection enabled (default)', function() {
-      var modular = new Modular();
+      var modular = new AssetManager();
       var data = 21;
       var id = 'id';
       var fn = function(age) {
@@ -111,7 +111,7 @@ describe('Modular.register()', function() {
     });
 
     describe('with injection disabled', function () {
-      var modular = new Modular();
+      var modular = new AssetManager();
       var id = 'id';
       var fn = function(age) {
         return age;
@@ -133,7 +133,7 @@ describe('Modular.register()', function() {
   describe('register a constant', function() {
 
     describe('string', function() {
-      var modular = new Modular();
+      var modular = new AssetManager();
       var id = 'id';
       var data = 'data';
       modular.register(id, data);
@@ -153,7 +153,7 @@ describe('Modular.register()', function() {
     });
 
     describe('object', function() {
-      var modular = new Modular();
+      var modular = new AssetManager();
       var id = 'id';
       var data = { key: 'data' };
       modular.register(id, data);
@@ -173,7 +173,7 @@ describe('Modular.register()', function() {
     });
 
     describe('array', function() {
-      var modular = new Modular();
+      var modular = new AssetManager();
       var id = 'id';
       var data = [ 'data1', 'data2', 'data3' ];
       modular.register(id, data);
@@ -198,7 +198,7 @@ describe('Modular.register()', function() {
     var modular;
 
     beforeEach(function() {
-      modular = new Modular();
+      modular = new AssetManager();
     });
 
     afterEach(function() {

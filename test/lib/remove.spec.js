@@ -6,10 +6,10 @@ var sinon = require('sinon');
 var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 
-var Modular = require('../../');
+var AssetManager = require('../../');
 var errors = require('../../lib/errors');
 
-describe('Modular.remove()', function() {
+describe('AssetManager.remove()', function() {
   var modular;
 
   describe('removing a factory asset', function() {
@@ -18,7 +18,7 @@ describe('Modular.remove()', function() {
     var context;
 
     before(function() {
-      modular = new Modular();
+      modular = new AssetManager();
       modular.registerFunction(id, value, true);
       context = modular._assets[id]._context;
       sinon.spy(context, 'emit');
@@ -54,7 +54,7 @@ describe('Modular.remove()', function() {
     var value = 'value';
 
     before(function() {
-      modular = new Modular();
+      modular = new AssetManager();
       modular.registerConstant(id, value);
     });
 
@@ -73,7 +73,7 @@ describe('Modular.remove()', function() {
     var id = 'notfound';
 
     before(function() {
-      modular = new Modular();
+      modular = new AssetManager();
     });
 
     after(function() {
@@ -89,7 +89,7 @@ describe('Modular.remove()', function() {
   describe('calling .remove() with invalid arguments', function() {
 
     beforeEach(function() {
-      modular = new Modular();
+      modular = new AssetManager();
     });
 
     afterEach(function() {

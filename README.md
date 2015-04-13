@@ -9,23 +9,27 @@ A lazy dependency-injection framework for Node.js
 ## Installation
 [![NPM version][npm-image]][npm-url]
 
-**agentia-modular** is available on [npm][npm-url].
+**agentia-asset-manager** will be available soon on [npm][npm-url].
+
+In the mean time, you can install directly from the GH repo.
 
 ```js
-npm install --save agentia-modular
+npm install --save AgentiaSystems/agentia-asset-manager
 ```
+
+
 
 ## Usage
 ```js
-var Modular = require('agentia-modular');
-var modular = new Modular();
+var AssetManager = require('agentia-asset-manager');
+var container = new AssetManager();
 
 ```
 
 ## Concepts
-**agentia-modular** allows you to create a modular container where you can register assets. Some assets (ie. dependency-injectable function or factory) can require/depend on other assets. Since dependencies are lazily resolved, assets can be registered in any order, so long as all required dependencies are registered prior to asset resolution.
+**agentia-asset-manager** allows you to create an asset container where you can register assets. Some assets (ie. dependency-injectable function or factory) can require/depend on other assets. Since dependencies are lazily resolved, assets can be registered in any order, so long as all required dependencies are registered prior to asset resolution.
 
-Within **agentia-modular** there are four (4) times assets that can be registered:
+Within **agentia-asset-manager** there are four (4) times assets that can be registered:
 
 Asset Type | Description
 ---------- | -----------
@@ -42,11 +46,11 @@ Asset Type | Description
 Used to register a `function` asset.
 
 ```js
-modular.registerFunction(id, fn[, injectable]);
+container.registerFunction(id, fn[, injectable]);
 ```
 
 param | type | description | default
------ | ---- | ----------- | -------
+----- | :--: | ----------- | -------
 id | `string` | Used to identify the registered the asset. | none
 fn | `function` | Function to be registered as an asset  | none
 injectable | `boolean` | When true, the asset will be treated as a factory, otherwise it will be treated as a simple function | `false`
@@ -59,21 +63,21 @@ var fn = function(a, b) {
 };
 
 // register as a dependency injectable factory
-modular.registerFunction('myFactory', fn, true);
+container.registerFunction('myFactory', fn, true);
 
 // register as a non-injectable function
-modular.registerFunction('myFuction', fn, false);
+container.registerFunction('myFuction', fn, false);
 ```
 
 ### .registerHash()
 Used to register a `hash` asset.
 
 ```js
-modular.registerHash(hash[, injectable]);
+container.registerHash(hash[, injectable]);
 ```
 
 param | type | description | default
------ | ---- | ----------- | -------
+----- | :--: | ----------- | -------
 hash | `object` | An object hash, the properties of which will all be individually registered as assets. | none
 injectable<br>*(optional)* | `boolean` | When true, the asset will be treated as a factory, otherwise it will be treated as a simple function | `false`
 
@@ -94,13 +98,13 @@ var hash = {
   }
 };
 
-modular.registerHash(hash, true); // <-- with di enabled
+container.registerHash(hash, true); // <-- with di enabled
 // assetA --> registered as `constant` assets
 // assetB --> registered as `constant` assets
 // assetC --> registered as `constant` assets
 // assetD --> registered as a factory `function` asset
 
-modular.registerHash(fn, false); // <-- with di disabled
+container.registerHash(fn, false); // <-- with di disabled
 // assetA --> registered as `constant` assets
 // assetB --> registered as `constant` assets
 // assetC --> registered as `constant` assets
@@ -111,15 +115,14 @@ modular.registerHash(fn, false); // <-- with di disabled
 Registers any Node.js requirable module as an asset. If it can be required using `require()` it can be registered using `.registerModule()`.
 
 ```js
-modular.registerModule([id,] module[, injectable]);
+container.registerModule([id,] module[, injectable]);
 ```
 
 param | type | description | default
------ | ---- | ----------- | -------
+----- | :--: | ----------- | -------
 id<br>*(optional)*  | `string` | Used to identify the registered the asset. When not specified, the `module` name (or its basename if it is path to a file), will be converted to camel case and used as the `id`  | none
-module | `function` | Path to module to be registerd  | none
-injectable<br>
-*(optional)* | `boolean` | When true, the asset will be treated as a factory, otherwise it will be treated as a simple function. | `false`
+module | `string` | Path to module to be registered  | none
+injectable<br>*(optional)* | `boolean` | When true, the asset will be treated as a factory, otherwise it will be treated as a simple function. | `false`
 
 > NOTE: `injectable` is applicable when the registered module returns a function. It will otherwise be ignored.
 
@@ -128,16 +131,16 @@ injectable<br>
 ```js
 // register as a dependency injectable module
 var pathToModuleA = require.resole('./path/to/my/module');
-modular.registerModule('moduleA', pathToModuleA, true);
+container.registerModule('moduleA', pathToModuleA, true);
 
 // register as a non-injectable function
-modular.registerFunction('moduleB', 'npm-module', false);
+container.registerFunction('moduleB', 'npm-module', false);
 
 var pathToModuleC = require.resole('./path/to/my/my-fancy-module');
-modular.registerModule(pathToModuleC); // <-- will use myFancyModule as the asset id
+container.registerModule(pathToModuleC); // <-- will use myFancyModule as the asset id
 
 // register as a non-injectable function
-modular.registerFunction('npm-module'); // <-- will use npmModule as the asset id
+container.registerFunction('npm-module'); // <-- will use npmModule as the asset id
 ```
 
 > NOTE: You should typically (if not always) turn off dependency injection, when registering an NPM module.
@@ -146,33 +149,33 @@ modular.registerFunction('npm-module'); // <-- will use npmModule as the asset i
 Register any `string`, `number`, `date`, `array`, or `object` as a constant asset.
 
 ```js
-modular.registerConstant(id, constant);
+container.registerConstant(id, constant);
 ```
 
 param | type | description | default
------ | ---- | ----------- | -------
+----- | :--: | ----------- | -------
 id | `string` | Used to identify the registered the asset. | none
 constant | any | Asset to be registered. Can be a `string`, `number`, `date`, `array`, or `object`. | none
 
 #### Example
 
 ```js
-modular.registerModule('a', 'string');
-modular.registerModule('b', 12345678);
-modular.registerModule('c', new Date());
-modular.registerModule('d', { key: 'value' });
-modular.registerModule('e', ['value1', 'value2']);
+container.registerModule('a', 'string');
+container.registerModule('b', 12345678);
+container.registerModule('c', new Date());
+container.registerModule('d', { key: 'value' });
+container.registerModule('e', ['value1', 'value2']);
 ```
 
 ### .registerFolder()
 Searches (non-recursively) for any `.js` files in a folder and registers each as a module (of it exports a function) or as constants (if it exports anything other than a function).
 
 ```js
-modular.registerFolder(folderPath[, injectable);
+container.registerFolder(folderPath[, injectable);
 ```
 
 param | type | description | default
------ | ---- | ----------- | -------
+----- | :--: | ----------- | -------
 folderPath | `string` | Absolute path to the folder you wish to register | none
 injectable | `boolean` | When true, the registered assets will be treated as a factory, otherwise it will be treated as a simple function. | `false`
 
@@ -182,18 +185,18 @@ injectable | `boolean` | When true, the registered assets will be treated as a f
 
 ```js
 var pathToFolder = path.join(__dirname, './path/to/folder')
-modular.registerFolder(pathToFolder, true); // <-- will treat exported functions as factories
+container.registerFolder(pathToFolder, true); // <-- will treat exported functions as factories
 ```
 
 ### .resolve()
 Resolve a registered asset. For dependency-injectable factories (functions and modules), it resolves all it's dependencies before calling the factory function, resolving to it's return value. All other assets are returned "as-is".
 
 ```js
-modular.resolve(id|fn[, overrides]);
+container.resolve(id|fn[, overrides]);
 ```
 
 param | type | description | default
------ | ---- | ----------- | -------
+----- | :--: | ----------- | -------
 id | `string` | Used to identify the registered the asset. | none
 fn | `function` | Function to inject with dependencies and invoke. | none
 overrides
@@ -209,36 +212,36 @@ var fn2 = function(a, b, sum) {
 };
 
 // register assets
-modular.registerFunction('sum', fn, true);    // <-- factory asset
-modular.registerConstant('a', 5);             // <-- constant asset
-modular.registerConstant('b', 10);            // <-- constant asset
-modular.registerFunction('fn1', fn1, false);  // <-- simple function asset
+container.registerFunction('sum', fn, true);    // <-- factory asset
+container.registerConstant('a', 5);             // <-- constant asset
+container.registerConstant('b', 10);            // <-- constant asset
+container.registerFunction('fn1', fn1, false);  // <-- simple function asset
 
 // resolve assets
-var resultA = modular.resolve('a');     // <-- resolves to 5
-var resultB = modular.resolve('b');     // <-- resolves to 10
-var resultSum = modular.resolve('sum'); // <-- resolved to 15
-var resultFn1 = modular.resolve('fn1'); // <-- resolve to function "fn"
-var resultFn2 = modular.resolve(fn2);   // <-- resolves to 65
-var override = modular.resolve(fn1, { a: 1, b: 2}); // <-- resovles to 3
+var resultA = container.resolve('a');     // <-- resolves to 5
+var resultB = container.resolve('b');     // <-- resolves to 10
+var resultSum = container.resolve('sum'); // <-- resolved to 15
+var resultFn1 = container.resolve('fn1'); // <-- resolve to function "fn"
+var resultFn2 = container.resolve(fn2);   // <-- resolves to 65
+var override = container.resolve(fn1, { a: 1, b: 2}); // <-- resovles to 3
 ```
 
 ### .isRegistered()
 Determines if an asset is registered.
 
 ```js
-modular.isRegisterd(id);
+container.isRegisterd(id);
 ```
 
 param | type | description | default
------ | ---- | ----------- | -------
+----- | :--: | ----------- | -------
 id | `string` | Used to identify the registered the asset. | none
 
 #### Example
 
 ```js
-modular.registerConstant('id', 'data');
-if (modular.isRegisted('id')) {
+container.registerConstant('id', 'data');
+if (container.isRegisted('id')) {
   doSomething();
 }
 ```
@@ -247,11 +250,11 @@ if (modular.isRegisted('id')) {
 Determines if an asset is a dependency-injectable factory.
 
 ```js
-modular.isInjectable(id);
+container.isInjectable(id);
 ```
 
 param | type | description | default
------ | ---- | ----------- | -------
+----- | :--: | ----------- | -------
 id | `string` | Used to identify the registered the asset. | none
 
 #### Example
@@ -260,8 +263,8 @@ id | `string` | Used to identify the registered the asset. | none
 var fn = function(a, b) {
   returns a + b;
 };
-modular.registerConstant('factory', fn, true);
-if (modular.isInjectable('factory')) {
+container.registerConstant('factory', fn, true);
+if (container.isInjectable('factory')) {
   doSomething();
 }
 ```
@@ -270,18 +273,18 @@ if (modular.isInjectable('factory')) {
 Determines if an asset is constant.
 
 ```js
-modular.isConstant(id);
+container.isConstant(id);
 ```
 
 param | type | description | default
------ | ---- | ----------- | -------
+----- | :--: | ----------- | -------
 id | `string` | Used to identify the registered the asset. | none
 
 #### Example
 
 ```js
-modular.registerConstant('id', 'data');
-if (modular.isConstant('id')) {
+container.registerConstant('id', 'data');
+if (container.isConstant('id')) {
   doSomething();
 }
 ```
@@ -290,11 +293,11 @@ if (modular.isConstant('id')) {
 Determines if an asset is a function. It returns `true` for both factories and non-injectable functions.
 
 ```js
-modular.isFunction(id);
+container.isFunction(id);
 ```
 
 param | type | description | default
------ | ---- | ----------- | -------
+----- | :--: | ----------- | -------
 id | `string` | Used to identify the registered the asset. | none
 
 #### Example
@@ -303,8 +306,8 @@ id | `string` | Used to identify the registered the asset. | none
 var fn = function(a, b) {
   returns a + b;
 };
-modular.isFunction('myFunction', fn);
-if (modular.isFunction('myFunction')) {
+container.isFunction('myFunction', fn);
+if (container.isFunction('myFunction')) {
   doSomething();
 }
 ```
@@ -313,18 +316,18 @@ if (modular.isFunction('myFunction')) {
 Determines if an asset is module.
 
 ```js
-modular.isModule(id);
+container.isModule(id);
 ```
 
 param | type | description | default
------ | ---- | ----------- | -------
+----- | :--: | ----------- | -------
 id | `string` | Used to identify the registered the asset. | none
 
 #### Example
 
 ```js
-modular.registerModule('module', 'npm-module');
-if (modular.isModule('module')) {
+container.registerModule('module', 'npm-module');
+if (container.isModule('module')) {
   doSomething();
 }
 ```
@@ -332,7 +335,7 @@ if (modular.isModule('module')) {
 ## Compatibility API
 The following API was include solely to maintain compatibility with `dependable`. These methods may be deprecated in future versions.
 
-> WARNING: I DO NOT guarantee that these methods are IDENTICAL to their `dependable` counterparts. They are only provided to ease the transition from `dependable` to `agentia-modular`. If you're a `dependable` consumer, I suggest you transition to our core API as soon as possible.
+> WARNING: I DO NOT guarantee that these methods are IDENTICAL to their `dependable` counterparts. They are only provided to ease the transition from `dependable` to `agentia-asset-manager`. If you're a `dependable` consumer, I suggest you transition to our core API as soon as possible.
 
 ### .register()
 Register assets. This is functionally equivalent to the `.register()` method in `dependable`.
@@ -340,25 +343,25 @@ Register assets. This is functionally equivalent to the `.register()` method in 
 > Note: .register() as dependency-injection enabled by default, to mimic it behavior in `dependable`
 
 ```js
-modular.register(id, fn);
-modular.register(id, value);
-modular.register(hash);
+container.register(id, fn);
+container.register(id, value);
+container.register(hash);
 ```
 
 When called with | Functionally equivalent to
 ---------------- | --------------------------
-`id`, `function` | `modular.registerFunction(id, fn, true)`.
-`id`, `value` | `modular.registerConstant(id, constant)`
-`hash` | `modular.registerHash(hash, true)`
+`.register(id, fn)` | `container.registerFunction(id, fn, true)`.
+`.register(id, value)` | `container.registerConstant(id, constant)`
+`.register(hash)` | `container.registerHash(hash, true)`
 
 ### .get()
 Returns a resolve asset by id.
 
 ```js
-modular.get(id[, overrides]);
+container.get(id[, overrides]);
 ```
 
-This method is functionally equivalent to `modular.resolve(id[, overrides]);`.
+This method is functionally equivalent to `container.resolve(id[, overrides]);`.
 
 ### .load()
 Registers a file, or all the files in a folder.
@@ -366,27 +369,27 @@ Registers a file, or all the files in a folder.
 > Note: .load() as dependency-injection enabled by default, to mimic it behavior in `dependable`
 
 ```js
-modular.load(file|folder);
+container.load(file|folder);
 ```
 
 When called with | Functionally equivalent to
 ---------------- | --------------------------
-`file` | `modular.registerModule('file', 'file', true)`.
-`value` | `modular.registerFolder(folder, true)`
+`.load(file)` | `container.registerModule('file', 'file', true)`.
+`.load(folder)` | `container.registerFolder(folder, true)`
 
 
 ## Attributions
-**agentia-modular** is loosely based, and greatly inspired by [dependable][dependable-url].
+**agentia-asset-manager** is loosely based, and greatly inspired by [dependable][dependable-url].
 
 > [dependable][dependable-url]<br>
 Copyright (c) 2013 [i.TV LLC][idottv-url]<br>
 https://github.com/idottv/dependable
 
-Since the dependable project appears to be abandoned, I've decided to make the initial version of **agentia-modular** backwards compatible (as much as possible) with the last version of dependable. This way existing dependable consumers can easily transition to **agentia-modular**.
+Since the dependable project appears to be abandoned, I've decided to make the initial version of **agentia-asset-manager** backwards compatible (as much as possible) with the last version of dependable. This way existing dependable consumers can easily transition to **agentia-asset-manager**.
 
 
 ## License
-**agentia-modular** is free and open source under the MIT License.
+**agentia-asset-manager** is free and open source under the MIT License.
 
 Copyright (c) 2015 [Johnny Estilles](https://github.com/JohnnyEstilles), [http://www.agentia.asia](http://www.agentia.asia)
 
@@ -398,15 +401,15 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [logo-image]: media/logo.png
-[npm-image]: https://badge.fury.io/js/agentia-modular.svg
-[npm-url]: https://npmjs.org/package/agentia-modular
-[travis-image]: https://travis-ci.org/AgentiaSystems/agentia-modular.svg?branch=master
-[travis-url]: https://travis-ci.org/AgentiaSystems/agentia-modular
-[daviddm-image]: https://david-dm.org/AgentiaSystems/agentia-modular.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/AgentiaSystems/agentia-modular
-[codeclimate-image]: https://codeclimate.com/github/AgentiaSystems/agentia-modular/badges/gpa.svg
-[codeclimate-url]: https://codeclimate.com/github/AgentiaSystems/agentia-modular
-[coverage-image]: https://codeclimate.com/github/AgentiaSystems/agentia-modular/badges/coverage.svg
-[coverage-url]: https://codeclimate.com/github/AgentiaSystems/agentia-modular
+[npm-image]: https://badge.fury.io/js/agentia-asset-manager.svg
+[npm-url]: https://npmjs.org/package/agentia-asset-manager
+[travis-image]: https://travis-ci.org/AgentiaSystems/agentia-asset-manager.svg?branch=master
+[travis-url]: https://travis-ci.org/AgentiaSystems/agentia-asset-manager
+[daviddm-image]: https://david-dm.org/AgentiaSystems/agentia-asset-manager.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/AgentiaSystems/agentia-asset-manager
+[codeclimate-image]: https://codeclimate.com/github/AgentiaSystems/agentia-asset-manager/badges/gpa.svg
+[codeclimate-url]: https://codeclimate.com/github/AgentiaSystems/agentia-asset-manager
+[coverage-image]: https://codeclimate.com/github/AgentiaSystems/agentia-asset-manager/badges/coverage.svg
+[coverage-url]: https://codeclimate.com/github/AgentiaSystems/agentia-asset-manager
 [dependable-url]: https://github.com/idottv/dependable
 [idottv-url]: https://github.com/idottv)
