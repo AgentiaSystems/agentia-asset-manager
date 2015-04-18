@@ -34,9 +34,9 @@ Within **agentia-asset-manager** there are four (4) times assets that can be reg
 Asset Type | Description
 ---------- | -----------
 `function` | This can be either a dependecy-injectable function (factory) or a simple non-injenctable function. This is determined by the `injectable` parameter during asset registration.
-`module` | Any requirable Node.js module.<br>If the module returns a function, it can also be treated as a factory or a simple finction (see `function` above.)<br>If the module returns anything other than a function, it will be registered as a `constant` (see below).
-`hash` | Any object hash, the properties of which will be treated and registered as individually registered.<br>If the property is a `function` it be treated as a function asset (see explanation above), otherwise it will be treated as a constant asset (see explanation below).
-`constant` | Anything other than what is listed above (ie. `string`, `number`, `date`,  `array` or `object`). Objects registered as a `constant` will be registered as a single asset, unlike a `hash` which will register every property as a distinct asset.
+`module` | Any requirable Node.js module.<br>If the module returns a function, it can also be treated as a factory or a simple function (see `function` above.)<br>If the module returns anything other than a function, it will be registered as a `instance` (see below).
+`hash` | Any object hash, the properties of which will be treated and registered as individually registered.<br>If the property is a `function` it be treated as a function asset (see explanation above), otherwise it will be treated as an `instance` asset (see explanation below).
+`instance` | Anything other than what is listed above (ie. `string`, `number`, `date`,  `array` or `object`). Objects registered as an `instance` will be registered as a single asset, unlike a `hash` which will register every property as a distinct asset.
 
 > NOTE: Simple (non-injectable) function assets will always resolve to the actual function, where as factory (injectable) function assets will be injected with their required dependencies prior to resolution, will always resolve to their returned value.
 
@@ -66,7 +66,7 @@ var fn = function(a, b) {
 container.registerFunction('myFactory', fn, true);
 
 // register as a non-injectable function
-container.registerFunction('myFuction', fn, false);
+container.registerFunction('myFunction', fn, false);
 ```
 
 ### .registerHash()
@@ -99,15 +99,15 @@ var hash = {
 };
 
 container.registerHash(hash, true); // <-- with di enabled
-// assetA --> registered as `constant` assets
-// assetB --> registered as `constant` assets
-// assetC --> registered as `constant` assets
+// assetA --> registered as `instance` assets
+// assetB --> registered as `instance` assets
+// assetC --> registered as `instance` assets
 // assetD --> registered as a factory `function` asset
 
 container.registerHash(fn, false); // <-- with di disabled
-// assetA --> registered as `constant` assets
-// assetB --> registered as `constant` assets
-// assetC --> registered as `constant` assets
+// assetA --> registered as `instance` assets
+// assetB --> registered as `instance` assets
+// assetC --> registered as `instance` assets
 // assetD --> registered as a simple `function` asset
 ```
 
@@ -145,17 +145,17 @@ container.registerFunction('npm-module'); // <-- will use npmModule as the asset
 
 > NOTE: You should typically (if not always) turn off dependency injection, when registering an NPM module.
 
-### .registerConstant()
-Register any `string`, `number`, `date`, `array`, or `object` as a constant asset.
+### .registerInstance()
+Register any `string`, `number`, `date`, `array`, or `object` as an `instance` asset.
 
 ```js
-container.registerConstant(id, constant);
+container.registerInstance(id, instance);
 ```
 
 param | type | description | default
 ----- | :--: | ----------- | -------
 id | `string` | Used to identify the registered the asset. | none
-constant | any | Asset to be registered. Can be a `string`, `number`, `date`, `array`, or `object`. | none
+instance | any | Asset to be registered. Can be a `string`, `number`, `date`, `array`, or `object`. | none
 
 #### Example
 
@@ -168,7 +168,7 @@ container.registerModule('e', ['value1', 'value2']);
 ```
 
 ### .registerFolder()
-Searches (non-recursively) for any `.js` files in a folder and registers each as a module (of it exports a function) or as constants (if it exports anything other than a function).
+Searches (non-recursively) for any `.js` files in a folder and registers each as a module (of it exports a function) or as an `instance` (if it exports anything other than a function).
 
 ```js
 container.registerFolder(folderPath[, injectable);
@@ -213,8 +213,8 @@ var fn2 = function(a, b, sum) {
 
 // register assets
 container.registerFunction('sum', fn, true);    // <-- factory asset
-container.registerConstant('a', 5);             // <-- constant asset
-container.registerConstant('b', 10);            // <-- constant asset
+container.registerInstance('a', 5);             // <-- instance asset
+container.registerInstance('b', 10);            // <-- instance asset
 container.registerFunction('fn1', fn1, false);  // <-- simple function asset
 
 // resolve assets
@@ -240,7 +240,7 @@ id | `string` | Used to identify the registered the asset. | none
 #### Example
 
 ```js
-container.registerConstant('id', 'data');
+container.registerInstance('id', 'data');
 if (container.isRegisted('id')) {
   doSomething();
 }
@@ -263,17 +263,17 @@ id | `string` | Used to identify the registered the asset. | none
 var fn = function(a, b) {
   returns a + b;
 };
-container.registerConstant('factory', fn, true);
+container.registerInstance('factory', fn, true);
 if (container.isInjectable('factory')) {
   doSomething();
 }
 ```
 
-### .isConstant()
-Determines if an asset is constant.
+### .isInstance()
+Determines if an asset is an `instance`.
 
 ```js
-container.isConstant(id);
+container.isInstance(id);
 ```
 
 param | type | description | default
@@ -283,8 +283,8 @@ id | `string` | Used to identify the registered the asset. | none
 #### Example
 
 ```js
-container.registerConstant('id', 'data');
-if (container.isConstant('id')) {
+container.registerInstance('id', 'data');
+if (container.isInstance('id')) {
   doSomething();
 }
 ```
@@ -351,7 +351,7 @@ container.register(hash);
 When called with | Functionally equivalent to
 ---------------- | --------------------------
 `.register(id, fn)` | `container.registerFunction(id, fn, true)`.
-`.register(id, value)` | `container.registerConstant(id, constant)`
+`.register(id, value)` | `container.registerInstance(id, instance)`
 `.register(hash)` | `container.registerHash(hash, true)`
 
 ### .get()

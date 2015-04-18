@@ -34,8 +34,8 @@ describe('AssetManager()', function() {
       expect(modular).to.have.property('registerFolder').that.is.a('function');
     });
 
-    it('should expose .registerConstant()', function() {
-      expect(modular).to.have.property('registerConstant').that.is.a('function');
+    it('should expose .registerInstance()', function() {
+      expect(modular).to.have.property('registerInstance').that.is.a('function');
     });
 
     it('should expose .registerHash()', function() {
@@ -62,8 +62,8 @@ describe('AssetManager()', function() {
       expect(modular).to.have.property('isRegistered').that.is.a('function');
     });
 
-    it('should expose .isConstant()', function() {
-      expect(modular).to.have.property('isConstant').that.is.a('function');
+    it('should expose .isInstance()', function() {
+      expect(modular).to.have.property('isInstance').that.is.a('function');
     });
 
     it('should expose .isFunction()', function() {

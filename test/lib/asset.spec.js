@@ -25,8 +25,8 @@ describe('Asset()', function() {
       expect(asset).to.have.property('isInjectable');
     });
 
-    it('should expose .isConstant', function() {
-      expect(asset).to.have.property('isConstant');
+    it('should expose .isInstance', function() {
+      expect(asset).to.have.property('isInstance');
     });
 
     it('should expose .isModule', function() {
@@ -59,7 +59,7 @@ describe('Asset()', function() {
     var asset = new Asset('key', 'value', { constant: true });
 
     it('should return a constant asset', function() {
-      expect(asset.isConstant).to.be.true;
+      expect(asset.isInstance).to.be.true;
     });
 
     it('should return a resolved asset', function() {
@@ -115,10 +115,6 @@ describe('Asset()', function() {
 
     it('should not allow the retrieval of the asset value', function() {
       expect(asset.value).to.be.null;
-    });
-
-    it('should have a context of type EventEmitter', function() {
-      expect(asset._context).to.be.an.instanceof(EventEmitter);
     });
 
     it('should allow the retrieval of the asset factory', function() {
@@ -198,7 +194,7 @@ describe('Asset()', function() {
     });
 
     it('should return a constant Asset', function() {
-      expect(asset.isConstant).to.be.true;
+      expect(asset.isInstance).to.be.true;
     });
 
     it('should return an non-injectable Asset', function() {

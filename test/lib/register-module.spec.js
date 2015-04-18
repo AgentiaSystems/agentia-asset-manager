@@ -50,8 +50,8 @@ describe('AssetManager.registerModule()', function() {
       var modular = new AssetManager();
       var id = 'module';
       var modulePath = require.resolve('../fixtures/test-module-a');
-      modular.registerConstant('a', 1);
-      modular.registerConstant('b', 2);
+      modular.registerInstance('a', 1);
+      modular.registerInstance('b', 2);
       modular.registerModule(id, modulePath, true);
 
       it('should register the asset', function() {
@@ -68,8 +68,8 @@ describe('AssetManager.registerModule()', function() {
       var modular = new AssetManager();
       var id = 'testModuleA';
       var moduleA = require.resolve('../fixtures/test-module-a');
-      modular.registerConstant('a', 1);
-      modular.registerConstant('b', 2);
+      modular.registerInstance('a', 1);
+      modular.registerInstance('b', 2);
       modular.registerModule(moduleA, true);
 
       it('should register the asset', function() {
@@ -87,8 +87,8 @@ describe('AssetManager.registerModule()', function() {
       var id = 'module';
       var moduleA = require.resolve('../fixtures/test-module-a');
       var moduleB = require.resolve('../fixtures/test-module-b');
-      modular.registerConstant('a', 1);
-      modular.registerConstant('b', 2);
+      modular.registerInstance('a', 1);
+      modular.registerInstance('b', 2);
       modular.registerModule(moduleA, true);
       modular.registerModule(id, moduleB, true);
 

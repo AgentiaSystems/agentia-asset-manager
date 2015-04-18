@@ -15,7 +15,7 @@ describe('AssetManager.registerFunction()', function() {
     var fn = function(age) {
       return age;
     };
-    modular.registerConstant('age', data);
+    modular.registerInstance('age', data);
     modular.registerFunction(id, fn, true);
 
     it('should register the asset', function() {

@@ -6,20 +6,20 @@ var expect = chai.expect;
 var AssetManager = require('../../');
 var errors = require('../../lib/errors');
 
-describe('AssetManager.registerConstant()', function() {
+describe('AssetManager.registerInstance()', function() {
 
   describe('registering a constant dependency (string)', function() {
     var modular = new AssetManager();
     var id = 'id';
     var data = 'data';
-    modular.registerConstant(id, data);
+    modular.registerInstance(id, data);
 
     it('should register the dependency', function() {
       expect(modular.isRegistered(id)).to.be.true;
     });
 
     it('should register as a constant dependency', function() {
-      expect(modular.isConstant(id)).to.be.true;
+      expect(modular.isInstance(id)).to.be.true;
     });
 
     it('should allow resolution of constant dependency', function() {
@@ -32,14 +32,14 @@ describe('AssetManager.registerConstant()', function() {
     var modular = new AssetManager();
     var id = 'id';
     var data = { key: 'data' };
-    modular.registerConstant(id, data);
+    modular.registerInstance(id, data);
 
     it('should register the dependency', function() {
       expect(modular.isRegistered(id)).to.be.true;
     });
 
     it('should register as a constant dependency', function() {
-      expect(modular.isConstant(id)).to.be.true;
+      expect(modular.isInstance(id)).to.be.true;
     });
 
     it('should allow resolution of constant dependency', function() {
@@ -52,14 +52,14 @@ describe('AssetManager.registerConstant()', function() {
     var modular = new AssetManager();
     var id = 'id';
     var data = [ 'data1', 'data2', 'data3' ];
-    modular.registerConstant(id, data);
+    modular.registerInstance(id, data);
 
     it('should register the dependency', function() {
       expect(modular.isRegistered(id)).to.be.true;
     });
 
     it('should register as a constant dependency', function() {
-      expect(modular.isConstant(id)).to.be.true;
+      expect(modular.isInstance(id)).to.be.true;
     });
 
     it('should allow resolution of constant dependency', function() {
@@ -68,7 +68,7 @@ describe('AssetManager.registerConstant()', function() {
 
   });
 
-  describe('calling .registerConstant() with invalid arguments', function() {
+  describe('calling .registerInstance() with invalid arguments', function() {
     var modular;
 
     beforeEach(function() {
@@ -81,19 +81,19 @@ describe('AssetManager.registerConstant()', function() {
 
     it('should throw an error, when called with no arguments', function() {
       expect(function () {
-        modular.registerConstant();
+        modular.registerInstance();
       }).to.throw(errors.InvalidArguments);
     });
 
     it('should throw an error, when called one argument', function() {
       expect(function() {
-        modular.registerConstant('id');
+        modular.registerInstance('id');
       }).to.throw(errors.InvalidArguments);
     });
 
     it('should throw an error, when id argument not a string', function() {
       expect(function() {
-        modular.registerConstant(123, 'id');
+        modular.registerInstance(123, 'id');
       }).to.throw(errors.MustBeString);
     });
 
