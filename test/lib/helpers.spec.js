@@ -72,7 +72,7 @@ describe('Helpers', function() {
 
       before(function() {
         modular = new AssetManager();
-        modular.registerConstant(is, 'value');
+        modular.registerInstance(is, 'value');
       });
 
       after(function() {
@@ -97,7 +97,7 @@ describe('Helpers', function() {
 
     });
 
-    describe('AssetManager.isConstant()', function() {
+    describe('AssetManager.isInstance()', function() {
       var modular;
       var is = 'is';
       var isnot = 'isnot';
@@ -105,7 +105,7 @@ describe('Helpers', function() {
 
       before(function() {
         modular = new AssetManager();
-        modular.registerConstant(is, 'value');
+        modular.registerInstance(is, 'value');
         modular.registerFunction(isnot, function() {}, true);
       });
 
@@ -116,20 +116,20 @@ describe('Helpers', function() {
       });
 
       it('should return true for constant dependencies', function() {
-        expect(modular.isConstant(is)).to.be.true;
+        expect(modular.isInstance(is)).to.be.true;
       });
 
       it('should return false for non-constant dependencies', function() {
-        expect(modular.isConstant(isnot)).to.be.false;
+        expect(modular.isInstance(isnot)).to.be.false;
       });
 
       it('should return false for non-existing dependencies', function() {
-        expect(modular.isConstant(invalid)).to.be.false;
+        expect(modular.isInstance(invalid)).to.be.false;
       });
 
       it('should throw an error, when called with arguments', function() {
         expect(function() {
-          modular.isConstant();
+          modular.isInstance();
         }).to.throw(errors.MustBeString);
       });
 
@@ -182,7 +182,7 @@ describe('Helpers', function() {
       before(function() {
         modular = new AssetManager();
         modular.registerFunction(is, function() {}, true);
-        modular.registerConstant(isnot, 'value');
+        modular.registerInstance(isnot, 'value');
       });
 
       after(function() {
@@ -244,6 +244,47 @@ describe('Helpers', function() {
       it('should throw an error, when called with arguments', function() {
         expect(function() {
           modular.isInjectable();
+        }).to.throw(errors.MustBeString);
+      });
+
+    });
+
+    describe('AssetManager.isResolved()', function() {
+      var modular;
+      var is = 'is';
+      var isnot = 'isnot';
+      var invalid = 'invalid';
+      var fn = function(a) {
+        return a;
+      };
+
+      before(function() {
+        modular = new AssetManager();
+        modular.registerInstance(is, 'resolved');
+        modular.registerFunction(isnot, fn, true);
+      });
+
+      after(function() {
+        modular.remove(is);
+        modular.remove(isnot);
+        modular = null;
+      });
+
+      it('should return true for resolved assets', function() {
+        expect(modular.isResolved(is)).to.be.true;
+      });
+
+      it('should return false for non-resolved assets', function() {
+        expect(modular.isResolved(isnot)).to.be.false;
+      });
+
+      it('should return false for non-existing assets', function() {
+        expect(modular.isResolved(invalid)).to.be.false;
+      });
+
+      it('should throw an error, when called with arguments', function() {
+        expect(function() {
+          modular.isResolved();
         }).to.throw(errors.MustBeString);
       });
 

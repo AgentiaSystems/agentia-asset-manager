@@ -37,8 +37,8 @@ describe('AssetManager.registerFolder()', function() {
   describe('registering a folder (with injection enabled)', function() {
     var folder = path.resolve(__dirname, '../fixtures');
     var modular = new AssetManager();
-    modular.registerConstant('a', 99);
-    modular.registerConstant('b', 1);
+    modular.registerInstance('a', 99);
+    modular.registerInstance('b', 1);
     modular.registerFolder(folder, true);
 
     it('should register all the assets', function() {

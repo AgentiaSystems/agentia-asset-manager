@@ -32,10 +32,10 @@ describe('AssetManager.register()', function() {
       });
 
       it('should register with appropriate types', function() {
-        expect(modular.isConstant('key1')).to.be.true;
-        expect(modular.isConstant('key2')).to.be.true;
-        expect(modular.isConstant('key3')).to.be.true;
-        expect(modular.isConstant('key4')).to.be.true;
+        expect(modular.isInstance('key1')).to.be.true;
+        expect(modular.isInstance('key2')).to.be.true;
+        expect(modular.isInstance('key3')).to.be.true;
+        expect(modular.isInstance('key4')).to.be.true;
         expect(modular.isFunction('key5')).to.be.true;
       });
 
@@ -69,10 +69,10 @@ describe('AssetManager.register()', function() {
       });
 
       it('should register with appropriate types', function() {
-        expect(modular.isConstant('key1')).to.be.true;
-        expect(modular.isConstant('key2')).to.be.true;
-        expect(modular.isConstant('key3')).to.be.true;
-        expect(modular.isConstant('key4')).to.be.true;
+        expect(modular.isInstance('key1')).to.be.true;
+        expect(modular.isInstance('key2')).to.be.true;
+        expect(modular.isInstance('key3')).to.be.true;
+        expect(modular.isInstance('key4')).to.be.true;
         expect(modular.isFunction('key5')).to.be.true;
       });
 
@@ -97,7 +97,7 @@ describe('AssetManager.register()', function() {
       var fn = function(age) {
         return age;
       };
-      modular.registerConstant('age', data);
+      modular.registerInstance('age', data);
       modular.register(id, fn);
 
       it('should register the asset', function() {
@@ -143,7 +143,7 @@ describe('AssetManager.register()', function() {
       });
 
       it('should register as a constant asset', function() {
-        expect(modular.isConstant(id)).to.be.true;
+        expect(modular.isInstance(id)).to.be.true;
       });
 
       it('should allow resolution of constant asset', function() {
@@ -163,7 +163,7 @@ describe('AssetManager.register()', function() {
       });
 
       it('should register as a constant asset', function() {
-        expect(modular.isConstant(id)).to.be.true;
+        expect(modular.isInstance(id)).to.be.true;
       });
 
       it('should allow resolution of constant asset', function() {
@@ -183,7 +183,7 @@ describe('AssetManager.register()', function() {
       });
 
       it('should register as a constant asset', function() {
-        expect(modular.isConstant(id)).to.be.true;
+        expect(modular.isInstance(id)).to.be.true;
       });
 
       it('should allow resolution of constant asset', function() {
