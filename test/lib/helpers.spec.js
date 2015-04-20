@@ -45,12 +45,15 @@ describe('Helpers', function() {
     });
 
     describe('.checkMustBeAsset()', function() {
-      var asset = new Asset('id', 'value', { constant: true });
+
+      before(function() {
+        this.asset = new Asset('id', 'value', { constant: true });
+      });
 
       it('should return silently if check succedes', function() {
         expect(function() {
-          helpers.checkMustBeAsset(asset, 'id');
-        }).to.not.throw;
+          helpers.checkMustBeAsset(this.asset, 'id');
+        }.bind(this)).to.not.throw;
       });
 
       it('should throw an error if check fails', function() {
@@ -66,226 +69,220 @@ describe('Helpers', function() {
   describe('AssetManager Class', function() {
 
     describe('AssetManager.isRegistered()', function() {
-      var modular;
-      var is = 'is';
-      var isnot = 'isnot';
 
       before(function() {
-        modular = new AssetManager();
-        modular.registerInstance(is, 'value');
+        this.is = 'is';
+        this.isnot = 'isnot';
+        this.am = new AssetManager();
+        this.am.registerInstance(this.is, 'value');
       });
 
       after(function() {
-        modular.remove(is);
-        modular.remove(isnot);
-        modular = null;
+        this.am.remove(this.is);
+        this.am.remove(this.isnot);
+        this.am = null;
       });
 
       it('should return true for existing dependencies', function() {
-        expect(modular.isRegistered(is)).to.be.true;
+        expect(this.am.isRegistered(this.is)).to.be.true;
       });
 
       it('should return false for non-existing dependencies', function() {
-        expect(modular.isRegistered(isnot)).to.be.false;
+        expect(this.am.isRegistered(this.isnot)).to.be.false;
       });
 
       it('should throw an error, when called with arguments', function() {
         expect(function() {
-          modular.isRegistered();
-        }).to.throw(errors.MustBeString);
+          this.am.isRegistered();
+        }.bind(this)).to.throw(errors.MustBeString);
       });
 
     });
 
     describe('AssetManager.isInstance()', function() {
-      var modular;
-      var is = 'is';
-      var isnot = 'isnot';
-      var invalid = 'invalid';
 
       before(function() {
-        modular = new AssetManager();
-        modular.registerInstance(is, 'value');
-        modular.registerFunction(isnot, function() {}, true);
+        this.is = 'is';
+        this.isnot = 'isnot';
+        this.invalid = 'invalid';
+        this.am = new AssetManager();
+        this.am.registerInstance(this.is, 'value');
+        this.am.registerFunction(this.isnot, function() {}, true);
       });
 
       after(function() {
-        modular.remove(is);
-        modular.remove(isnot);
-        modular = null;
+        this.am.remove(this.is);
+        this.am.remove(this.isnot);
+        this.am = null;
       });
 
       it('should return true for constant dependencies', function() {
-        expect(modular.isInstance(is)).to.be.true;
+        expect(this.am.isInstance(this.is)).to.be.true;
       });
 
       it('should return false for non-constant dependencies', function() {
-        expect(modular.isInstance(isnot)).to.be.false;
+        expect(this.am.isInstance(this.isnot)).to.be.false;
       });
 
       it('should return false for non-existing dependencies', function() {
-        expect(modular.isInstance(invalid)).to.be.false;
+        expect(this.am.isInstance(this.invalid)).to.be.false;
       });
 
       it('should throw an error, when called with arguments', function() {
         expect(function() {
-          modular.isInstance();
-        }).to.throw(errors.MustBeString);
+          this.am.isInstance();
+        }.bind(this)).to.throw(errors.MustBeString);
       });
 
     });
 
     describe('AssetManager.isModule()', function() {
-      var modular;
-      var is = 'is';
-      var isnot = 'isnot';
-      var invalid = 'invalid';
 
       before(function() {
-        modular = new AssetManager();
-        modular.registerModule(is, require.resolve('../fixtures/test-module-a'));
-        modular.registerFunction(isnot, function() {}, true);
+        this.is = 'is';
+        this.isnot = 'isnot';
+        this.invalid = 'invalid';
+        this.am = new AssetManager();
+        this.am.registerModule(this.is, require.resolve('../fixtures/test-module-a'));
+        this.am.registerFunction(this.isnot, function() {}, true);
       });
 
       after(function() {
-        modular.remove(is);
-        modular.remove(isnot);
-        modular = null;
+        this.am.remove(this.is);
+        this.am.remove(this.isnot);
+        this.am = null;
       });
 
       it('should return true for module dependencies', function() {
-        expect(modular.isModule(is)).to.be.true;
+        expect(this.am.isModule(this.is)).to.be.true;
       });
 
       it('should return false for non-module dependencies', function() {
-        expect(modular.isModule(isnot)).to.be.false;
+        expect(this.am.isModule(this.isnot)).to.be.false;
       });
 
       it('should return false for non-existing dependencies', function() {
-        expect(modular.isModule(invalid)).to.be.false;
+        expect(this.am.isModule(this.invalid)).to.be.false;
       });
 
       it('should throw an error, when called with arguments', function() {
         expect(function() {
-          modular.isModule();
-        }).to.throw(errors.MustBeString);
+          this.am.isModule();
+        }.bind(this)).to.throw(errors.MustBeString);
       });
 
     });
 
     describe('AssetManager.isFunction()', function() {
-      var modular;
-      var is = 'is';
-      var isnot = 'isnot';
-      var invalid = 'invalid';
 
       before(function() {
-        modular = new AssetManager();
-        modular.registerFunction(is, function() {}, true);
-        modular.registerInstance(isnot, 'value');
+        this.is = 'is';
+        this.isnot = 'isnot';
+        this.invalid = 'invalid';
+        this.am = new AssetManager();
+        this.am.registerFunction(this.is, function() {}, true);
+        this.am.registerInstance(this.isnot, 'value');
       });
 
       after(function() {
-        modular.remove(is);
-        modular.remove(isnot);
-        modular = null;
+        this.am.remove(this.is);
+        this.am.remove(this.isnot);
+        this.am = null;
       });
 
       it('should return true for function dependencies', function() {
-        expect(modular.isFunction(is)).to.be.true;
+        expect(this.am.isFunction(this.is)).to.be.true;
       });
 
       it('should return false for non-function dependencies', function() {
-        expect(modular.isFunction(isnot)).to.be.false;
+        expect(this.am.isFunction(this.isnot)).to.be.false;
       });
 
       it('should return false for non-existing dependencies', function() {
-        expect(modular.isFunction(invalid)).to.be.false;
+        expect(this.am.isFunction(this.invalid)).to.be.false;
       });
 
       it('should throw an error, when called with arguments', function() {
         expect(function() {
-          modular.isFunction();
-        }).to.throw(errors.MustBeString);
+          this.am.isFunction();
+        }.bind(this)).to.throw(errors.MustBeString);
       });
 
     });
 
     describe('AssetManager.isInjectable()', function() {
-      var modular;
-      var is = 'is';
-      var isnot = 'isnot';
-      var invalid = 'invalid';
 
       before(function() {
-        modular = new AssetManager();
-        modular.registerFunction(is, function() {}, true);
-        modular.registerFunction(isnot, function() {}, false);
+        this.is = 'is';
+        this.isnot = 'isnot';
+        this.invalid = 'invalid';
+        this.am = new AssetManager();
+        this.am.registerFunction(this.is, function() {}, true);
+        this.am.registerFunction(this.isnot, function() {}, false);
       });
 
       after(function() {
-        modular.remove(is);
-        modular.remove(isnot);
-        modular = null;
+        this.am.remove(this.is);
+        this.am.remove(this.isnot);
+        this.am = null;
       });
 
       it('should return true for function dependencies', function() {
-        expect(modular.isInjectable(is)).to.be.true;
+        expect(this.am.isInjectable(this.is)).to.be.true;
       });
 
       it('should return false for non-function dependencies', function() {
-        expect(modular.isInjectable(isnot)).to.be.false;
+        expect(this.am.isInjectable(this.isnot)).to.be.false;
       });
 
       it('should return false for non-existing dependencies', function() {
-        expect(modular.isInjectable(invalid)).to.be.false;
+        expect(this.am.isInjectable(this.invalid)).to.be.false;
       });
 
       it('should throw an error, when called with arguments', function() {
         expect(function() {
-          modular.isInjectable();
-        }).to.throw(errors.MustBeString);
+          this.am.isInjectable();
+        }.bind(this)).to.throw(errors.MustBeString);
       });
 
     });
 
     describe('AssetManager.isResolved()', function() {
-      var modular;
-      var is = 'is';
-      var isnot = 'isnot';
-      var invalid = 'invalid';
-      var fn = function(a) {
-        return a;
-      };
 
       before(function() {
-        modular = new AssetManager();
-        modular.registerInstance(is, 'resolved');
-        modular.registerFunction(isnot, fn, true);
+        this.is = 'is';
+        this.isnot = 'isnot';
+        this.invalid = 'invalid';
+        this.fn = function(a) {
+          return a;
+        };
+        this.am = new AssetManager();
+        this.am.registerInstance(this.is, 'resolved');
+        this.am.registerFunction(this.isnot, this.fn, true);
       });
 
       after(function() {
-        modular.remove(is);
-        modular.remove(isnot);
-        modular = null;
+        this.am.remove(this.is);
+        this.am.remove(this.isnot);
+        this.am = null;
       });
 
       it('should return true for resolved assets', function() {
-        expect(modular.isResolved(is)).to.be.true;
+        expect(this.am.isResolved(this.is)).to.be.true;
       });
 
       it('should return false for non-resolved assets', function() {
-        expect(modular.isResolved(isnot)).to.be.false;
+        expect(this.am.isResolved(this.isnot)).to.be.false;
       });
 
       it('should return false for non-existing assets', function() {
-        expect(modular.isResolved(invalid)).to.be.false;
+        expect(this.am.isResolved(this.invalid)).to.be.false;
       });
 
       it('should throw an error, when called with arguments', function() {
         expect(function() {
-          modular.isResolved();
-        }).to.throw(errors.MustBeString);
+          this.am.isResolved();
+        }.bind(this)).to.throw(errors.MustBeString);
       });
 
     });

@@ -11,33 +11,47 @@ describe('AssetManager.registerModule()', function() {
   describe('registering a non-injectable module asset', function() {
 
     describe('with id', function() {
-      var modular = new AssetManager();
-      var id = 'module';
-      var modulePath = require.resolve('../fixtures/test-module-a');
-      modular.registerModule(id, modulePath);
+
+      before(function() {
+        this.id = 'module';
+        this.modulePath = require.resolve('../fixtures/test-module-a');
+        this.am = new AssetManager();
+        this.am.registerModule(this.id, this.modulePath);
+      });
+
+      after(function() {
+        this.am = null;
+      });
 
       it('should register the asset', function() {
-        expect(modular.isRegistered(id)).to.be.true;
+        expect(this.am.isRegistered(this.id)).to.be.true;
       });
 
       it('should allow asset resolution', function() {
-        expect(modular.resolve(id)).to.equal(require(modulePath));
+        expect(this.am.resolve(this.id)).to.equal(require(this.modulePath));
       });
 
     });
 
     describe('without id', function() {
-      var modular = new AssetManager();
-      var id = 'testModuleA';
-      var modulePath = require.resolve('../fixtures/test-module-a');
-      modular.registerModule(modulePath);
+
+      before(function() {
+        this.id = 'testModuleA';
+        this.modulePath = require.resolve('../fixtures/test-module-a');
+        this.am = new AssetManager();
+        this.am.registerModule(this.modulePath);
+      });
+
+      after(function() {
+        this.am = null;
+      });
 
       it('should register the asset', function() {
-        expect(modular.isRegistered(id)).to.be.true;
+        expect(this.am.isRegistered(this.id)).to.be.true;
       });
 
       it('should allow asset resolution', function() {
-        expect(modular.resolve(id)).to.equal(require(modulePath));
+        expect(this.am.resolve(this.id)).to.equal(require(this.modulePath));
       });
 
     });
@@ -47,57 +61,78 @@ describe('AssetManager.registerModule()', function() {
   describe('registering a injectable module asset', function() {
 
     describe('with id', function() {
-      var modular = new AssetManager();
-      var id = 'module';
-      var modulePath = require.resolve('../fixtures/test-module-a');
-      modular.registerInstance('a', 1);
-      modular.registerInstance('b', 2);
-      modular.registerModule(id, modulePath, true);
+
+      before(function() {
+        this.id = 'module';
+        this.modulePath = require.resolve('../fixtures/test-module-a');
+        this.am = new AssetManager();
+        this.am.registerInstance('a', 1);
+        this.am.registerInstance('b', 2);
+        this.am.registerModule(this.id, this.modulePath, true);
+      });
+
+      after(function() {
+        this.am = null;
+      });
 
       it('should register the asset', function() {
-        expect(modular.isRegistered(id)).to.be.true;
+        expect(this.am.isRegistered(this.id)).to.be.true;
       });
 
       it('should allow asset resolution', function() {
-        expect(modular.resolve(id)).to.equal(3);
+        expect(this.am.resolve(this.id)).to.equal(3);
       });
 
     });
 
     describe('without id', function() {
-      var modular = new AssetManager();
-      var id = 'testModuleA';
-      var moduleA = require.resolve('../fixtures/test-module-a');
-      modular.registerInstance('a', 1);
-      modular.registerInstance('b', 2);
-      modular.registerModule(moduleA, true);
+
+      before(function() {
+        this.id = 'testModuleA';
+        this.moduleA = require.resolve('../fixtures/test-module-a');
+        this.am = new AssetManager();
+        this.am.registerInstance('a', 1);
+        this.am.registerInstance('b', 2);
+        this.am.registerModule(this.moduleA, true);
+      });
+
+      after(function() {
+        this.am = null;
+      });
 
       it('should register the asset', function() {
-        expect(modular.isRegistered(id)).to.be.true;
+        expect(this.am.isRegistered(this.id)).to.be.true;
       });
 
       it('should allow asset resolution', function() {
-        expect(modular.resolve(id)).to.equal(3);
+        expect(this.am.resolve(this.id)).to.equal(3);
       });
 
     });
 
     describe('requires another module', function() {
-      var modular = new AssetManager();
-      var id = 'module';
-      var moduleA = require.resolve('../fixtures/test-module-a');
-      var moduleB = require.resolve('../fixtures/test-module-b');
-      modular.registerInstance('a', 1);
-      modular.registerInstance('b', 2);
-      modular.registerModule(moduleA, true);
-      modular.registerModule(id, moduleB, true);
+
+      before(function() {
+        this.am = new AssetManager();
+        this.id = 'module';
+        this.moduleA = require.resolve('../fixtures/test-module-a');
+        this.moduleB = require.resolve('../fixtures/test-module-b');
+        this.am.registerInstance('a', 1);
+        this.am.registerInstance('b', 2);
+        this.am.registerModule(this.moduleA, true);
+        this.am.registerModule(this.id, this.moduleB, true);
+      });
+
+      after(function() {
+        this.am = null;
+      });
 
       it('should register the asset', function() {
-        expect(modular.isRegistered(id)).to.be.true;
+        expect(this.am.isRegistered(this.id)).to.be.true;
       });
 
       it('should allow asset resolution', function() {
-        expect(modular.resolve(id)).to.equal(3);
+        expect(this.am.resolve(this.id)).to.equal(3);
       });
 
     });
@@ -105,32 +140,31 @@ describe('AssetManager.registerModule()', function() {
   });
 
   describe('calling .registerModule() with invalmodulePath arguments', function() {
-    var modular;
 
     beforeEach(function() {
-      modular = new AssetManager();
+      this.am = new AssetManager();
     });
 
     afterEach(function() {
-      modular = null;
+      this.am = null;
     });
 
     it('should throw an error, when missing arguments', function() {
       expect(function() {
-        modular.registerModule();
-      }).to.throw(errors.InvalidArguments);
+        this.am.registerModule();
+      }.bind(this)).to.throw(errors.InvalidArguments);
     });
 
     it('should throw an error, when id not a string', function() {
       expect(function() {
-        modular.registerModule(123, 'module');
-      }).to.throw(errors.MustBeString);
+        this.am.registerModule(123, 'module');
+      }.bind(this)).to.throw(errors.MustBeString);
     });
 
     it('should throw an error, when module "modulePath" not a string', function() {
       expect(function() {
-        modular.registerModule('id', 123);
-      }).to.throw(errors.MustBeString);
+        this.am.registerModule('id', 123);
+      }.bind(this)).to.throw(errors.MustBeString);
     });
 
   });

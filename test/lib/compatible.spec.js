@@ -11,112 +11,113 @@ chai.use(sinonChai);
 var AssetManager = require('../../');
 var errors = require('../../lib/errors');
 
-describe('AssetManager.get()', function() {
-  var modular;
-  var dependency = 'name';
+describe('AssetManager() compatibility methods ', function() {
 
-  before(function() {
-    modular = new AssetManager();
-    sinon.stub(modular, 'resolve');
-    modular.register(dependency, 'value');
-    modular.get(dependency);
-  });
-
-  after(function() {
-    modular.resolve.restore();
-    modular = null;
-  });
-
-  it('should call .resolve() once', function() {
-    expect(modular.resolve).to.be.have.been.calledOnce;
-  });
-
-  it('should call .resolve() with module id', function() {
-    expect(modular.resolve)
-      .to.be.have.been.calledWith(dependency);
-  });
-
-  it('should throw an error, when missing arguments', function() {
-    expect(modular.get).to.throw(errors.InvalidArguments);
-  });
-
-});
-
-describe('AssetManager.load()', function() {
-
-  describe('loading a module', function() {
-    var modular;
-    var id = require.resolve('../fixtures/test-module-a');
+  describe('.get()', function() {
 
     before(function() {
-      modular = new AssetManager();
-      sinon.stub(modular, 'registerModule');
-      modular.load(id);
+      this.id = 'name';
+
+      this.am = new AssetManager();
+      sinon.stub(this.am, 'resolve');
+      this.am.register(this.id, 'value');
+      this.am.get(this.id);
     });
 
     after(function() {
-      modular.registerModule.restore();
-      modular = null;
+      this.am.resolve.restore();
+      this.am = null;
     });
 
-    it('should call .registerModule() once', function() {
-      expect(modular.registerModule).to.be.have.been.calledOnce;
+    it('should call .resolve() once', function() {
+      expect(this.am.resolve).to.be.have.been.calledOnce;
     });
 
-    it('should call .registerModule() with module id', function() {
-      expect(modular.registerModule)
-        .to.be.have.been.calledWithExactly(id, true);
-    });
-
-  });
-
-  describe('loading a folder', function() {
-    var modular;
-    var id = path.resolve(path.dirname(module.id), '../fixtures');
-
-    before(function() {
-      modular = new AssetManager();
-      sinon.stub(modular, 'registerFolder');
-      modular.load(id);
-    });
-
-    after(function() {
-      modular.registerFolder.restore();
-      modular = null;
-    });
-
-    it('should call .registerFolder() once', function() {
-      expect(modular.registerFolder).to.be.have.been.calledOnce;
-    });
-
-    it('should call .registerFolder() with module id', function() {
-      expect(modular.registerFolder)
-        .to.be.have.been.calledWithExactly(id, true);
-    });
-
-  });
-
-  describe('calling .load() with invalid arguments', function() {
-    var modular;
-
-    beforeEach(function() {
-      modular = new AssetManager();
-    });
-
-    afterEach(function() {
-      modular = null;
+    it('should call .resolve() with module id', function() {
+      expect(this.am.resolve)
+        .to.be.have.been.calledWith(this.id);
     });
 
     it('should throw an error, when missing arguments', function() {
-      expect(function() {
-        modular.load();
-      }).to.throw(errors.InvalidArguments);
+      expect(this.am.get).to.throw(errors.InvalidArguments);
     });
 
-    it('should throw an error, when id argument is not a string', function() {
-      expect(function() {
-        modular.load(123);
-      }).to.throw(errors.MustBeString);
+  });
+
+  describe('.load()', function() {
+
+    describe('loading a module', function() {
+
+      before(function() {
+        this.id = require.resolve('../fixtures/test-module-a');
+        this.am = new AssetManager();
+        sinon.stub(this.am, 'registerModule');
+        this.am.load(this.id);
+      });
+
+      after(function() {
+        this.am.registerModule.restore();
+        this.am = null;
+      });
+
+      it('should call .registerModule() once', function() {
+        expect(this.am.registerModule).to.be.have.been.calledOnce;
+      });
+
+      it('should call .registerModule() with module id', function() {
+        expect(this.am.registerModule)
+          .to.be.have.been.calledWithExactly(this.id, true);
+      });
+
+    });
+
+    describe('loading a folder', function() {
+
+      before(function() {
+        this.id = path.resolve(path.dirname(module.id), '../fixtures');
+        this.am = new AssetManager();
+        sinon.stub(this.am, 'registerFolder');
+        this.am.load(this.id);
+      });
+
+      after(function() {
+        this.am.registerFolder.restore();
+        this.am = null;
+      });
+
+      it('should call .registerFolder() once', function() {
+        expect(this.am.registerFolder).to.be.have.been.calledOnce;
+      });
+
+      it('should call .registerFolder() with module id', function() {
+        expect(this.am.registerFolder)
+          .to.be.have.been.calledWithExactly(this.id, true);
+      });
+
+    });
+
+    describe('calling .load() with invalid arguments', function() {
+
+      beforeEach(function() {
+        this.am = new AssetManager();
+      });
+
+      afterEach(function() {
+        this.am = null;
+      });
+
+      it('should throw an error, when missing arguments', function() {
+        expect(function() {
+          this.am.load();
+        }.bind(this)).to.throw(errors.InvalidArguments);
+      });
+
+      it('should throw an error, when id argument is not a string', function() {
+        expect(function() {
+          this.am.load(123);
+        }.bind(this)).to.throw(errors.MustBeString);
+      });
+
     });
 
   });
