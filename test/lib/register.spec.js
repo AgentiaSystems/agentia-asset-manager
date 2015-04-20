@@ -11,77 +11,91 @@ describe('AssetManager.register()', function() {
   describe('register a hash', function() {
 
     describe('with injection enabled (default)', function() {
-      var modular = new AssetManager();
-      var hash = {
-        key1: 'data1',
-        key2: 123,
-        key3: false,
-        key4: { key: 'data '},
-        key5: function(key2) {
-          return key2 * 2;
-        }
-      };
-      modular.register(hash);
+
+      before(function() {
+        this.hash = {
+          key1: 'data1',
+          key2: 123,
+          key3: false,
+          key4: { key: 'data '},
+          key5: function(key2) {
+            return key2 * 2;
+          }
+        };
+        this.am = new AssetManager();
+        this.am.register(this.hash);
+      });
+
+      after(function() {
+        this.am = null;
+      });
 
       it('should register all the assets', function() {
-        expect(modular.isRegistered('key1')).to.be.true;
-        expect(modular.isRegistered('key2')).to.be.true;
-        expect(modular.isRegistered('key3')).to.be.true;
-        expect(modular.isRegistered('key4')).to.be.true;
-        expect(modular.isRegistered('key5')).to.be.true;
+        expect(this.am.isRegistered('key1')).to.be.true;
+        expect(this.am.isRegistered('key2')).to.be.true;
+        expect(this.am.isRegistered('key3')).to.be.true;
+        expect(this.am.isRegistered('key4')).to.be.true;
+        expect(this.am.isRegistered('key5')).to.be.true;
       });
 
       it('should register with appropriate types', function() {
-        expect(modular.isInstance('key1')).to.be.true;
-        expect(modular.isInstance('key2')).to.be.true;
-        expect(modular.isInstance('key3')).to.be.true;
-        expect(modular.isInstance('key4')).to.be.true;
-        expect(modular.isFunction('key5')).to.be.true;
+        expect(this.am.isInstance('key1')).to.be.true;
+        expect(this.am.isInstance('key2')).to.be.true;
+        expect(this.am.isInstance('key3')).to.be.true;
+        expect(this.am.isInstance('key4')).to.be.true;
+        expect(this.am.isFunction('key5')).to.be.true;
       });
 
       it('should allow resolution of constant asset', function() {
-        expect(modular.resolve('key1')).to.equal(hash.key1);
-        expect(modular.resolve('key2')).to.equal(hash.key2);
-        expect(modular.resolve('key3')).to.equal(hash.key3);
-        expect(modular.resolve('key4')).to.deep.equal(hash.key4);
-        expect(modular.resolve('key5')).to.equal(hash.key2 * 2);
+        expect(this.am.resolve('key1')).to.equal(this.hash.key1);
+        expect(this.am.resolve('key2')).to.equal(this.hash.key2);
+        expect(this.am.resolve('key3')).to.equal(this.hash.key3);
+        expect(this.am.resolve('key4')).to.deep.equal(this.hash.key4);
+        expect(this.am.resolve('key5')).to.equal(this.hash.key2 * 2);
       });
 
     });
 
     describe('with injection disabled', function() {
-      var modular = new AssetManager();
-      var hash = {
-        key1: 'data1',
-        key2: 123,
-        key3: false,
-        key4: { key: 'data '},
-        key5: function() {}
-      };
-      modular.register(hash, false);
+
+      before(function() {
+        this.am = new AssetManager();
+        this.hash = {
+          key1: 'data1',
+          key2: 123,
+          key3: false,
+          key4: { key: 'data '},
+          key5: function() {}
+        };
+        this.am.register(this.hash, false);
+      });
+
+      after(function() {
+        this.am = null;
+      });
 
       it('should register all the assets', function() {
-        expect(modular.isRegistered('key1')).to.be.true;
-        expect(modular.isRegistered('key2')).to.be.true;
-        expect(modular.isRegistered('key3')).to.be.true;
-        expect(modular.isRegistered('key4')).to.be.true;
-        expect(modular.isRegistered('key5')).to.be.true;
+        expect(this.am.isRegistered('key1')).to.be.true;
+        expect(this.am.isRegistered('key2')).to.be.true;
+        expect(this.am.isRegistered('key3')).to.be.true;
+        expect(this.am.isRegistered('key4')).to.be.true;
+        expect(this.am.isRegistered('key5')).to.be.true;
       });
 
       it('should register with appropriate types', function() {
-        expect(modular.isInstance('key1')).to.be.true;
-        expect(modular.isInstance('key2')).to.be.true;
-        expect(modular.isInstance('key3')).to.be.true;
-        expect(modular.isInstance('key4')).to.be.true;
-        expect(modular.isFunction('key5')).to.be.true;
+        expect(this.am.isInstance('key1')).to.be.true;
+        expect(this.am.isInstance('key2')).to.be.true;
+        expect(this.am.isInstance('key3')).to.be.true;
+        expect(this.am.isInstance('key4')).to.be.true;
+        expect(this.am.isFunction('key5')).to.be.true;
       });
 
       it('should allow resolution of constant asset', function() {
-        expect(modular.resolve('key1')).to.equal(hash.key1);
-        expect(modular.resolve('key2')).to.equal(hash.key2);
-        expect(modular.resolve('key3')).to.equal(hash.key3);
-        expect(modular.resolve('key4')).to.deep.equal(hash.key4);
-        expect(modular.resolve('key5')).to.equal(hash.key5);
+        expect(this.am.resolve('key1')).to.equal(this.hash.key1);
+        expect(this.am.resolve('key2')).to.equal(this.hash.key2);
+        expect(this.am.resolve('key3')).to.equal(this.hash.key3);
+        expect(this.am.resolve('key4')).to.deep.equal(this.hash.key4);
+        expect(this.am.resolve('key5')).to.equal(this.hash.key5);
       });
 
     });
@@ -91,39 +105,56 @@ describe('AssetManager.register()', function() {
   describe('register a function', function() {
 
     describe('with injection enabled (default)', function() {
-      var modular = new AssetManager();
-      var data = 21;
-      var id = 'id';
-      var fn = function(age) {
-        return age;
-      };
-      modular.registerInstance('age', data);
-      modular.register(id, fn);
+
+      before(function() {
+        this.dataId = 'age';
+        this.data = 21;
+
+        this.fnId = 'id';
+        this.fn = function(age) {
+          return age;
+        };
+
+        this.am = new AssetManager();
+        this.am.registerInstance(this.dataId, this.data);
+        this.am.register(this.fnId, this.fn);
+      });
+
+      after(function() {
+        this.am = null;
+      });
 
       it('should register the asset', function() {
-        expect(modular.isRegistered(id)).to.be.true;
+        expect(this.am.isRegistered(this.fnId)).to.be.true;
       });
 
       it('should allow asset resolution', function() {
-        expect(modular.resolve(id)).to.equal(data);
+        expect(this.am.resolve(this.fnId)).to.equal(this.data);
       });
 
     });
 
     describe('with injection disabled', function () {
-      var modular = new AssetManager();
-      var id = 'id';
-      var fn = function(age) {
-        return age;
-      };
-      modular.register(id, fn, false);
+
+      before(function() {
+        this.id = 'id';
+        this.fn = function(age) {
+          return age;
+        };
+        this.am = new AssetManager();
+        this.am.register(this.id, this.fn, false);
+      });
+
+      after(function() {
+        this.am = null;
+      });
 
       it('should register the asset', function() {
-        expect(modular.isRegistered(id)).to.be.true;
+        expect(this.am.isRegistered(this.id)).to.be.true;
       });
 
       it('should allow asset resolution', function() {
-        expect(modular.resolve(id)).to.equal(fn);
+        expect(this.am.resolve(this.id)).to.equal(this.fn);
       });
 
     });
@@ -133,61 +164,82 @@ describe('AssetManager.register()', function() {
   describe('register a constant', function() {
 
     describe('string', function() {
-      var modular = new AssetManager();
-      var id = 'id';
-      var data = 'data';
-      modular.register(id, data);
+
+      before(function() {
+        this.id = 'id';
+        this.data = 'data';
+        this.am = new AssetManager();
+        this.am.register(this.id, this.data);
+      });
+
+      after(function() {
+        this.am = null;
+      });
 
       it('should register the asset', function() {
-        expect(modular.isRegistered(id)).to.be.true;
+        expect(this.am.isRegistered(this.id)).to.be.true;
       });
 
       it('should register as a constant asset', function() {
-        expect(modular.isInstance(id)).to.be.true;
+        expect(this.am.isInstance(this.id)).to.be.true;
       });
 
       it('should allow resolution of constant asset', function() {
-        expect(modular.resolve(id)).to.equal(data);
+        expect(this.am.resolve(this.id)).to.equal(this.data);
       });
 
     });
 
     describe('object', function() {
-      var modular = new AssetManager();
-      var id = 'id';
-      var data = { key: 'data' };
-      modular.register(id, data);
+
+      before(function() {
+        this.id = 'id';
+        this.data = { key: 'data' };
+        this.am = new AssetManager();
+        this.am.register(this.id, this.data);
+      });
+
+      after(function() {
+        this.am = null;
+      });
 
       it('should register the asset', function() {
-        expect(modular.isRegistered(id)).to.be.true;
+        expect(this.am.isRegistered(this.id)).to.be.true;
       });
 
       it('should register as a constant asset', function() {
-        expect(modular.isInstance(id)).to.be.true;
+        expect(this.am.isInstance(this.id)).to.be.true;
       });
 
       it('should allow resolution of constant asset', function() {
-        expect(modular.resolve(id)).to.deep.equal(data);
+        expect(this.am.resolve(this.id)).to.deep.equal(this.data);
       });
 
     });
 
     describe('array', function() {
-      var modular = new AssetManager();
-      var id = 'id';
-      var data = [ 'data1', 'data2', 'data3' ];
-      modular.register(id, data);
+
+      before(function() {
+        this.id = 'id';
+        this.data = [ 'data1', 'data2', 'data3' ];
+        this.am = new AssetManager();
+        this.am.register(this.id, this.data);
+      });
+
+      after(function() {
+        this.am = null;
+      });
 
       it('should register the asset', function() {
-        expect(modular.isRegistered(id)).to.be.true;
+        expect(this.am.isRegistered(this.id)).to.be.true;
       });
 
       it('should register as a constant asset', function() {
-        expect(modular.isInstance(id)).to.be.true;
+        expect(this.am.isInstance(this.id)).to.be.true;
       });
 
       it('should allow resolution of constant asset', function() {
-        expect(modular.resolve(id)).to.deep.equal(data);
+        expect(this.am.resolve(this.id)).to.deep.equal(this.data);
       });
 
     });
@@ -195,26 +247,25 @@ describe('AssetManager.register()', function() {
   });
 
   describe('calling .register() with invalid arguments', function() {
-    var modular;
 
     beforeEach(function() {
-      modular = new AssetManager();
+      this.am = new AssetManager();
     });
 
     afterEach(function() {
-      modular = null;
+      this.am = null;
     });
 
     it('should throw an error, when called with no arguments', function() {
       expect(function() {
-        modular.register();
-      }).to.throw(errors.InvalidArguments);
+        this.am.register();
+      }.bind(this)).to.throw(errors.InvalidArguments);
     });
 
     it('should throw an error, when id not a string', function() {
       expect(function() {
-        modular.register(123, 'module');
-      }).to.throw(errors.MustBeString);
+        this.am.register(123, 'module');
+      }.bind(this)).to.throw(errors.MustBeString);
     });
 
   });

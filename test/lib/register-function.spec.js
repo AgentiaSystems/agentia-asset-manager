@@ -9,75 +9,87 @@ var errors = require('../../lib/errors');
 describe('AssetManager.registerFunction()', function() {
 
   describe('registering a function asset (injectable)', function() {
-    var modular = new AssetManager();
-    var data = 21;
-    var id = 'id';
-    var fn = function(age) {
-      return age;
-    };
-    modular.registerInstance('age', data);
-    modular.registerFunction(id, fn, true);
+
+    before(function() {
+      this.data = 21;
+      this.id = 'id';
+      this.fn = function(age) {
+        return age;
+      };
+      this.am = new AssetManager();
+      this.am.registerInstance('age', this.data);
+      this.am.registerFunction(this.id, this.fn, true);
+    });
+
+    after(function() {
+      this.am = null;
+    });
 
     it('should register the asset', function() {
-      expect(modular.isRegistered(id)).to.be.true;
+      expect(this.am.isRegistered(this.id)).to.be.true;
     });
 
     it('should allow asset resolution', function() {
-      expect(modular.resolve(id)).to.equal(data);
+      expect(this.am.resolve(this.id)).to.equal(this.data);
     });
 
   });
 
   describe('registering a function asset (non-injectable)', function () {
-    var modular = new AssetManager();
-    var id = 'id';
-    var fn = function(age) {
-      return age;
-    };
-    modular.registerFunction(id, fn);
+
+    before(function() {
+      this.id = 'id';
+      this.fn = function(age) {
+        return age;
+      };
+      this.am = new AssetManager();
+      this.am.registerFunction(this.id, this.fn);
+    });
+
+    after(function() {
+      this.am = null;
+    });
 
     it('should register the asset', function() {
-      expect(modular.isRegistered(id)).to.be.true;
+      expect(this.am.isRegistered(this.id)).to.be.true;
     });
 
     it('should allow asset resolution', function() {
-      expect(modular.resolve(id)).to.equal(fn);
+      expect(this.am.resolve(this.id)).to.equal(this.fn);
     });
 
   });
 
   describe('calling .registerFunction() with invalid arguments', function() {
-    var modular;
-
     beforeEach(function() {
-      modular = new AssetManager();
+      this.am = new AssetManager();
     });
 
     afterEach(function() {
-      modular = null;
+      this.am = null;
     });
 
     it('should throw an error, when missing arguments', function() {
       expect(function() {
-        modular.registerFunction();
-      }).to.throw(errors.InvalidArguments);
+        this.am.registerFunction();
+      }.bind(this)).to.throw(errors.InvalidArguments);
 
       expect(function() {
-        modular.registerFunction('id');
-      }).to.throw(errors.InvalidArguments);
+        this.am.registerFunction('id');
+      }.bind(this)).to.throw(errors.InvalidArguments);
     });
 
     it('should throw an error, when id argument not a string', function() {
       var fn = function() {};
       expect(function() {
-        modular.registerFunction(123, fn);
-      }).to.throw(errors.MustBeString);
+        this.am.registerFunction(123, fn);
+      }.bind(this)).to.throw(errors.MustBeString);
     });
 
     it('should throw an error, when fn argument not a function', function() {
       expect(function() {
-        modular.registerFunction('id', 'fn');
-      }).to.throw(errors.MustBeFunction);
+        this.am.registerFunction('id', 'fn');
+      }.bind(this)).to.throw(errors.MustBeFunction);
     });
 
   });
