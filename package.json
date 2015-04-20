@@ -1,6 +1,6 @@
 {
   "name": "agentia-asset-manager",
-  "version": "0.0.0",
+  "version": "1.0.0-beta",
   "description": "A lazy dependency injection framework for Node.js",
   "main": "index.js",
   "directories": {
