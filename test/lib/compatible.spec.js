@@ -74,24 +74,24 @@ describe('AssetManager() compatibility methods ', function() {
     describe('loading a folder', function() {
 
       before(function() {
-        this.id = path.resolve(path.dirname(module.id), '../fixtures');
+        this.id = path.join(__dirname, '../fixtures');
         this.am = new AssetManager();
-        sinon.stub(this.am, 'registerFolder');
+        sinon.stub(this.am, 'registerFiles');
         this.am.load(this.id);
       });
 
       after(function() {
-        this.am.registerFolder.restore();
+        this.am.registerFiles.restore();
         this.am = null;
       });
 
       it('should call .registerFolder() once', function() {
-        expect(this.am.registerFolder).to.be.have.been.calledOnce;
+        expect(this.am.registerFiles).to.be.have.been.calledOnce;
       });
 
       it('should call .registerFolder() with module id', function() {
-        expect(this.am.registerFolder)
-          .to.be.have.been.calledWithExactly(this.id, true);
+        expect(this.am.registerFiles)
+          .to.be.have.been.calledWithExactly(path.join(this.id, '*.js'), true);
       });
 
     });

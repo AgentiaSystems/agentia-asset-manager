@@ -7,14 +7,14 @@ var path = require('path');
 var AssetManager = require('../../');
 var errors = require('../../lib/errors');
 
-describe('AssetManager.registerFolder()', function() {
+describe('AssetManager.registerFiles()', function() {
 
   describe('registering a folder (with injection disabled)', function() {
 
     before(function() {
-      this.folder = path.resolve(__dirname, '../fixtures');
+      this.pattern = path.join(__dirname, '../fixtures/*.js');
       this.am = new AssetManager();
-      this.am.registerFolder(this.folder);
+      this.am.registerFiles(this.pattern);
     });
 
     after(function() {
@@ -44,11 +44,11 @@ describe('AssetManager.registerFolder()', function() {
   describe('registering a folder (with injection enabled)', function() {
 
     before(function() {
-      this.folder = path.resolve(__dirname, '../fixtures');
+      this.pattern = path.join(__dirname, '../fixtures/*.js');
       this.am = new AssetManager();
       this.am.registerInstance('a', 99);
       this.am.registerInstance('b', 1);
-      this.am.registerFolder(this.folder, true);
+      this.am.registerFiles(this.pattern, true);
     });
 
     after(function() {
@@ -72,7 +72,7 @@ describe('AssetManager.registerFolder()', function() {
 
   });
 
-  describe('calling .registerFolder() with invalid arguments', function() {
+  describe('calling .registerFiles() with invalid arguments', function() {
 
     beforeEach(function() {
       this.am = new AssetManager();
@@ -84,28 +84,14 @@ describe('AssetManager.registerFolder()', function() {
 
     it('should throw an error, when called with no arguments', function() {
       expect(function() {
-        this.am.registerFolder();
+        this.am.registerFiles();
       }.bind(this)).to.throw(errors.InvalidArguments);
     });
 
     it('should throw an error, when called with no arguments', function() {
       expect(function() {
-        this.am.registerFolder(123);
+        this.am.registerFiles(123);
       }.bind(this)).to.throw(errors.MustBeString);
-    });
-
-    it('should throw an error, when called with non-existing path', function() {
-      var folder = path.join(__dirname, './path/not/found');
-      expect(function() {
-        this.am.registerFolder(folder);
-      }.bind(this)).to.throw(Error, /no such file or directory/);
-    });
-
-    it('should throw an error, when called with non-directory path', function() {
-      var folder = path.join(__dirname, '../fixtures/test-module-a.js');
-      expect(function() {
-        this.am.registerFolder(folder);
-      }.bind(this)).to.throw(errors.MustBeDirectory);
     });
 
   });

@@ -33,7 +33,7 @@ describe('AssetManager()', function() {
     });
 
     it('should expose .registerFolder()', function() {
-      expect(this.am).to.have.property('registerFolder').that.is.a('function');
+      expect(this.am).to.have.property('registerFiles').that.is.a('function');
     });
 
     it('should expose .registerInstance()', function() {
