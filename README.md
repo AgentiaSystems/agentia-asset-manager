@@ -9,15 +9,11 @@ A lazy dependency-injection framework for Node.js
 ## Installation
 [![NPM version][npm-image]][npm-url]
 
-**agentia-asset-manager** will be available soon on [npm][npm-url].
-
-In the mean time, you can install directly from the GH repo.
+**agentia-asset-manager** is available on [npm][npm-url].
 
 ```js
-npm install --save AgentiaSystems/agentia-asset-manager
+npm install --save agentia-asset-manager
 ```
-
-
 
 ## Usage
 ```js
@@ -134,13 +130,13 @@ var pathToModuleA = require.resole('./path/to/my/module');
 container.registerModule('moduleA', pathToModuleA, true);
 
 // register as a non-injectable function
-container.registerFunction('moduleB', 'npm-module', false);
+container.registerModule('moduleB', 'npm-module', false);
 
-var pathToModuleC = require.resole('./path/to/my/my-fancy-module');
+var pathToModuleC = require.resolve('./path/to/my/my-fancy-module');
 container.registerModule(pathToModuleC); // <-- will use myFancyModule as the asset id
 
 // register as a non-injectable function
-container.registerFunction('npm-module'); // <-- will use npmModule as the asset id
+container.registerModule('npm-module'); // <-- will use npmModule as the asset id
 ```
 
 > NOTE: You should typically (if not always) turn off dependency injection, when registering an NPM module.
@@ -160,47 +156,77 @@ instance | any | Asset to be registered. Can be a `string`, `number`, `date`, `a
 #### Example
 
 ```js
-container.registerModule('a', 'string');
-container.registerModule('b', 12345678);
-container.registerModule('c', new Date());
-container.registerModule('d', { key: 'value' });
-container.registerModule('e', ['value1', 'value2']);
+container.registerInstance('a', 'string');
+container.registerInstance('b', 12345678);
+container.registerInstance('c', new Date());
+container.registerInstance('d', { key: 'value' });
+container.registerInstance('e', ['value1', 'value2']);
 ```
 
-### .registerFolder()
-Searches (non-recursively) for any `.js` files in a folder and registers each as a module (of it exports a function) or as an `instance` (if it exports anything other than a function).
+### .registerFiles()
+Searches for any `.js` files in a folder and registers each as a module .
 
 ```js
-container.registerFolder(folderPath[, injectable);
+container.registerFiles(pattern[, injectable);
 ```
 
 param | type | description | default
 ----- | :--: | ----------- | -------
-folderPath | `string` | Absolute path to the folder you wish to register | none
-injectable | `boolean` | When true, the registered assets will be treated as a factory, otherwise it will be treated as a simple function. | `false`
-
-> NOTE: `injectable` is applicable for files that exports a function. It will otherwise be ignored.
+pattern | `string` | A glob pattern string specifying files to register | none
+injectable<br>*(optional)* | `boolean` | When true, the asset will be treated as a factory, otherwise it will be treated as a simple function. | `false`
 
 #### Example
 
 ```js
 var pathToFolder = path.join(__dirname, './path/to/folder')
-container.registerFolder(pathToFolder, true); // <-- will treat exported functions as factories
+container.registerFiles(pathToFolder, true); // <-- will treat exported functions as factories
+```
+
+### .inject()
+Inejcts a function with dependencies and returns its value. F
+
+```js
+container.inject(ifn[, overrides][, context]);
+```
+
+param | type | description | default
+----- | :--: | ----------- | -------
+fn | `function` | Function to inject with dependencies and resolve. | none
+overrides *(optional)* | `object` | Optional object hash providing values with which to override dependencies | none
+context *(optional)* | `object` | Optional object that will be used as a context when resolving the asset, when the asset is a factory | none
+
+```js
+var fn1 = function(a, b) {
+  return a + b;
+};
+
+var fn2 = function(a, b) {
+  return a + b + this.c;
+};
+
+// register assets
+container.registerInstance('a', 5);             // <-- instance asset
+container.registerInstance('b', 10);            // <-- instance asset
+var
+
+// resolve assets
+var result = container.inject(fn1); // <-- resolved to 15
+var withOverride = container.inject(fn1, { a: 1, b: 2}); // <-- resolves to 3
+var withContext = container.inject(fn2, { a: 1, b: 2}, { c: 3 }); // <-- resolves to 6
 ```
 
 ### .resolve()
 Resolve a registered asset. For dependency-injectable factories (functions and modules), it resolves all it's dependencies before calling the factory function, resolving to it's return value. All other assets are returned "as-is".
 
 ```js
-container.resolve(id|fn[, overrides]);
+container.resolve(id[, overrides][, context]);
 ```
 
 param | type | description | default
 ----- | :--: | ----------- | -------
 id | `string` | Used to identify the registered the asset. | none
-fn | `function` | Function to inject with dependencies and invoke. | none
-overrides
-*(optional)* | `object` | Optional object hash providing values with which to override dependencies | none
+overrides *(optional)* | `object` | Optional object hash providing values with which to override dependencies | none
+context *(optional)* | `object` | Optional object that will be used as a context when resolving the asset, when the asset is a factory | none
 
 ```js
 var fn1 = function(a, b) {
@@ -223,7 +249,7 @@ var resultB = container.resolve('b');     // <-- resolves to 10
 var resultSum = container.resolve('sum'); // <-- resolved to 15
 var resultFn1 = container.resolve('fn1'); // <-- resolve to function "fn"
 var resultFn2 = container.resolve(fn2);   // <-- resolves to 65
-var override = container.resolve(fn1, { a: 1, b: 2}); // <-- resovles to 3
+var override = container.resolve(fn1, { a: 1, b: 2}); // <-- resolves to 3
 ```
 
 ### .isRegistered()
@@ -369,13 +395,13 @@ Registers a file, or all the files in a folder.
 > Note: .load() as dependency-injection enabled by default, to mimic it behavior in `dependable`
 
 ```js
-container.load(file|folder);
+container.load(file|pattern);
 ```
 
 When called with | Functionally equivalent to
 ---------------- | --------------------------
 `.load(file)` | `container.registerModule('file', 'file', true)`.
-`.load(folder)` | `container.registerFolder(folder, true)`
+`.load(folder)` | `container.registerFiles(path.join(folder, '*.js'), true))`
 
 
 ## Attributions
@@ -401,15 +427,21 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [logo-image]: media/logo.png
+
 [npm-image]: https://badge.fury.io/js/agentia-asset-manager.svg
 [npm-url]: https://npmjs.org/package/agentia-asset-manager
+
 [travis-image]: https://travis-ci.org/AgentiaSystems/agentia-asset-manager.svg?branch=master
 [travis-url]: https://travis-ci.org/AgentiaSystems/agentia-asset-manager
+
 [daviddm-image]: https://david-dm.org/AgentiaSystems/agentia-asset-manager.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/AgentiaSystems/agentia-asset-manager
+
 [codeclimate-image]: https://codeclimate.com/github/AgentiaSystems/agentia-asset-manager/badges/gpa.svg
 [codeclimate-url]: https://codeclimate.com/github/AgentiaSystems/agentia-asset-manager
+
 [coverage-image]: https://codeclimate.com/github/AgentiaSystems/agentia-asset-manager/badges/coverage.svg
 [coverage-url]: https://codeclimate.com/github/AgentiaSystems/agentia-asset-manager
+
 [dependable-url]: https://github.com/idottv/dependable
 [idottv-url]: https://github.com/idottv)
