@@ -1,17 +1,17 @@
 {
-  "name": "agentia-modular",
-  "version": "0.0.0",
+  "name": "agentia-asset-manager",
+  "version": "1.0.0",
   "description": "A lazy dependency injection framework for Node.js",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "npm test"
+    "test": "gulp lint && gulp test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AgentiaSystems/agentia-modular.git"
+    "url": "https://github.com/AgentiaSystems/agentia-asset-manager.git"
   },
   "keywords": [
     "dependency",
@@ -26,7 +26,29 @@
   "author": "Johnny Estilles <johnny.estilles@agentia.asia> (http://www.agentia.asia)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AgentiaSystems/agentia-modular/issues"
+    "url": "https://github.com/AgentiaSystems/agentia-asset-manager/issues"
   },
-  "homepage": "https://github.com/AgentiaSystems/agentia-modular"
+  "homepage": "https://github.com/AgentiaSystems/agentia-asset-manager",
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "eslint": "^0.19.0",
+    "eslint-plugin-mocha": "^0.2.2",
+    "gulp": "^3.8.11",
+    "gulp-bump": "^0.3.0",
+    "gulp-eslint": "^0.9.0",
+    "gulp-git": "^1.2.0",
+    "gulp-istanbul": "^0.8.1",
+    "gulp-mocha": "^2.0.1",
+    "istanbul": "^0.3.13",
+    "mocha": "^2.2.4",
+    "sinon": "^1.14.1",
+    "sinon-chai": "^2.7.0",
+    "yargs": "^3.7.2"
+  },
+  "dependencies": {
+    "agentia-change-case": "^1.0.0",
+    "agentia-utilities": "^1.4.0",
+    "debug": "^2.1.3",
+    "glob": "^5.0.5"
+  }
 }
