@@ -9,7 +9,7 @@ var errors = require('../../lib/errors');
 
 describe('AssetManager.registerFiles()', function() {
 
-  describe('registering a folder (with injection disabled)', function() {
+  describe('registering a folder (with invokeion disabled)', function() {
 
     before(function() {
       this.pattern = path.join(__dirname, '../fixtures/*.js');
@@ -41,7 +41,7 @@ describe('AssetManager.registerFiles()', function() {
 
   });
 
-  describe('registering a folder (with injection enabled)', function() {
+  describe('registering a folder (with invokeion enabled)', function() {
 
     before(function() {
       this.pattern = path.join(__dirname, '../fixtures/*.js');

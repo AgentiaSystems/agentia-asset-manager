@@ -16,18 +16,18 @@ describe('AssetManager.resolve()', function() {
     before(function() {
       this.am = new AssetManager();
       sinon.stub(this.am, 'resolveAsset');
-      sinon.stub(this.am, 'inject');
+      sinon.stub(this.am, 'invoke');
     });
 
     after(function() {
       this.am.resolveAsset.restore();
-      this.am.inject.restore();
+      this.am.invoke.restore();
       this.am = null;
     });
 
     afterEach(function() {
       this.am.resolveAsset.reset();
-      this.am.inject.reset();
+      this.am.invoke.reset();
     });
 
     it('should call .resolveAsset(), when "target" is string', function() {
@@ -36,11 +36,11 @@ describe('AssetManager.resolve()', function() {
       expect(this.am.resolveAsset).to.have.been.calledWith('id');
     });
 
-    it('should call .inject(), when "target" is function', function() {
+    it('should call .invoke(), when "target" is function', function() {
       var fn = function() {};
       this.am.resolve(fn);
-      expect(this.am.inject).to.have.been.calledOnce;
-      expect(this.am.inject).to.have.been.calledWith(fn);
+      expect(this.am.invoke).to.have.been.calledOnce;
+      expect(this.am.invoke).to.have.been.calledWith(fn);
     });
 
     it('should call with empty object as override, when not passed', function() {

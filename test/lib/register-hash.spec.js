@@ -8,7 +8,7 @@ var errors = require('../../lib/errors');
 
 describe('AssetManager.registerHash()', function() {
 
-  describe('registering an object hash (with injection disabled)', function() {
+  describe('registering an object hash (with invokeion disabled)', function() {
 
     before(function() {
       this.hash = {
@@ -52,7 +52,7 @@ describe('AssetManager.registerHash()', function() {
 
   });
 
-  describe('registering an object hash (with injection enabled)', function() {
+  describe('registering an object hash (with invokeion enabled)', function() {
 
     before(function() {
       this.hash = {
