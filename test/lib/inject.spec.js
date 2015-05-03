@@ -6,9 +6,9 @@ var expect = chai.expect;
 var AssetManager = require('../../');
 var errors = require('../../lib/errors');
 
-describe('AssetManager.inject()', function() {
+describe('AssetManager.invoke()', function() {
 
-  describe('injecting assets into a function', function() {
+  describe('invokeing assets into a function', function() {
 
     describe('without override, without context', function() {
 
@@ -29,7 +29,7 @@ describe('AssetManager.inject()', function() {
       });
 
       it('should resolve value', function() {
-        expect(this.am.inject(this.fn)).to.equal(this.value);
+        expect(this.am.invoke(this.fn)).to.equal(this.value);
       });
 
     });
@@ -56,7 +56,7 @@ describe('AssetManager.inject()', function() {
       });
 
       it('should resolve value', function() {
-        expect(this.am.inject(this.fn, this.override))
+        expect(this.am.invoke(this.fn, this.override))
           .to.equal(this.override.a);
       });
 
@@ -84,7 +84,7 @@ describe('AssetManager.inject()', function() {
       });
 
       it('should resolve value', function() {
-        expect(this.am.inject(this.fn, {}, this.context))
+        expect(this.am.invoke(this.fn, {}, this.context))
           .to.equal(this.value + this.context.b);
       });
 
@@ -115,7 +115,7 @@ describe('AssetManager.inject()', function() {
       });
 
       it('should resolve value', function() {
-        expect(this.am.inject(this.fn, this.override, this.context))
+        expect(this.am.invoke(this.fn, this.override, this.context))
           .to.equal(this.override.a + this.context.b);
       });
 
@@ -149,9 +149,9 @@ describe('AssetManager.inject()', function() {
       });
 
       it('should return the result', function() {
-        expect(this.am.inject(this.fnA)).to.equal(3);
-        expect(this.am.inject(this.fnB)).to.equal(2);
-        expect(this.am.inject(this.fnC)).to.equal(5);
+        expect(this.am.invoke(this.fnA)).to.equal(3);
+        expect(this.am.invoke(this.fnB)).to.equal(2);
+        expect(this.am.invoke(this.fnC)).to.equal(5);
       });
 
     });
@@ -183,13 +183,13 @@ describe('AssetManager.inject()', function() {
 
       it('should detect self-reference and throw and error', function() {
         expect(function() {
-          this.am.inject(this.fnA);
+          this.am.invoke(this.fnA);
         }.bind(this)).to.throw(errors.CircularReference);
       });
 
       it('should circular reference and throw and error', function() {
         expect(function() {
-          this.am.inject(this.fnB);
+          this.am.invoke(this.fnB);
         }.bind(this)).to.throw(errors.CircularReference);
       });
 
@@ -197,7 +197,7 @@ describe('AssetManager.inject()', function() {
 
   });
 
-  describe('calling .inject() with invalid arguments', function() {
+  describe('calling .invoke() with invalid arguments', function() {
 
     beforeEach(function() {
       this.am = new AssetManager();
@@ -209,13 +209,13 @@ describe('AssetManager.inject()', function() {
 
     it('should throw an error, when called with no arguments', function() {
       expect(function() {
-        this.am.inject();
+        this.am.invoke();
       }.bind(this)).to.throw(errors.InvalidArguments);
     });
 
     it('should throw an error, when target not a string or a function', function() {
       expect(function() {
-        this.am.inject('id');
+        this.am.invoke('id');
       }.bind(this)).to.throw(errors.MustBeFunction);
     });
 

@@ -10,7 +10,7 @@ describe('AssetManager.register()', function() {
 
   describe('register a hash', function() {
 
-    describe('with injection enabled (default)', function() {
+    describe('with invokeion enabled (default)', function() {
 
       before(function() {
         this.hash = {
@@ -56,7 +56,7 @@ describe('AssetManager.register()', function() {
 
     });
 
-    describe('with injection disabled', function() {
+    describe('with invokeion disabled', function() {
 
       before(function() {
         this.am = new AssetManager();
@@ -104,7 +104,7 @@ describe('AssetManager.register()', function() {
 
   describe('register a function', function() {
 
-    describe('with injection enabled (default)', function() {
+    describe('with invokeion enabled (default)', function() {
 
       before(function() {
         this.dataId = 'age';
@@ -134,7 +134,7 @@ describe('AssetManager.register()', function() {
 
     });
 
-    describe('with injection disabled', function () {
+    describe('with invokeion disabled', function () {
 
       before(function() {
         this.id = 'id';
