@@ -4,7 +4,7 @@ var chai = require('chai');
 var expect = chai.expect;
 
 var AssetManager = require('../../');
-var Asset = require('../../lib/asset.js');
+var Asset = require('../../lib/core/asset.js');
 var errors = require('../../lib/errors');
 
 describe('AssetManager.resolveAsset()', function() {

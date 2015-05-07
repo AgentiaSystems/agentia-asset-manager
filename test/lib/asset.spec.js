@@ -3,7 +3,7 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var Asset = require('../../lib/asset');
+var Asset = require('../../lib/core/asset');
 var errors = require('../../lib/errors');
 
 describe('Asset()', function() {
