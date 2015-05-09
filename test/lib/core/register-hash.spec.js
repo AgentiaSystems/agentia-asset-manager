@@ -3,8 +3,8 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var AssetManager = require('../../');
-var errors = require('../../lib/errors');
+var AssetManager = require('../../../');
+var errors = require('../../../lib/errors');
 
 describe('AssetManager.registerHash()', function() {
 

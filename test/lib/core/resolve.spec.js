@@ -6,8 +6,8 @@ var sinon = require('sinon');
 var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 
-var AssetManager = require('../../');
-var errors = require('../../lib/errors');
+var AssetManager = require('../../../');
+var errors = require('../../../lib/errors');
 
 describe('AssetManager.resolve()', function() {
 

@@ -4,15 +4,15 @@ var chai = require('chai');
 var expect = chai.expect;
 var path = require('path');
 
-var AssetManager = require('../../');
-var errors = require('../../lib/errors');
+var AssetManager = require('../../../');
+var errors = require('../../../lib/errors');
 
 describe('AssetManager.registerFiles()', function() {
 
   describe('registering a folder (with invokeion disabled)', function() {
 
     before(function() {
-      this.pattern = path.join(__dirname, '../fixtures/*.js');
+      this.pattern = path.join(__dirname, '../../fixtures/*.js');
       this.am = new AssetManager();
       this.am.registerFiles(this.pattern);
     });
@@ -30,13 +30,13 @@ describe('AssetManager.registerFiles()', function() {
 
     it('should store all registered assets', function() {
       expect(this.am.resolve('testModuleA'))
-        .to.equal(require('../fixtures/test-module-a'));
+        .to.equal(require('../../fixtures/test-module-a'));
       expect(this.am.resolve('testModuleB'))
-        .to.equal(require('../fixtures/test-module-b'));
+        .to.equal(require('../../fixtures/test-module-b'));
       expect(this.am.resolve('testModuleC'))
-        .to.equal(require('../fixtures/test-module-c'));
+        .to.equal(require('../../fixtures/test-module-c'));
       expect(this.am.resolve('testModuleD'))
-        .to.deep.equal(require('../fixtures/test-module-d'));
+        .to.deep.equal(require('../../fixtures/test-module-d'));
     });
 
   });
@@ -44,7 +44,7 @@ describe('AssetManager.registerFiles()', function() {
   describe('registering a folder (with invokeion enabled)', function() {
 
     before(function() {
-      this.pattern = path.join(__dirname, '../fixtures/*.js');
+      this.pattern = path.join(__dirname, '../../fixtures/*.js');
       this.am = new AssetManager();
       this.am.registerInstance('a', 99);
       this.am.registerInstance('b', 1);
@@ -67,7 +67,7 @@ describe('AssetManager.registerFiles()', function() {
       expect(this.am.resolve('testModuleB')).to.equal(100);
       expect(this.am.resolve('testModuleC')).to.equal('this is test-module-a');
       expect(this.am.resolve('testModuleD'))
-        .to.deep.equal(require('../fixtures/test-module-d'));
+        .to.deep.equal(require('../../fixtures/test-module-d'));
     });
 
   });
