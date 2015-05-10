@@ -36,7 +36,7 @@
     "gulp": "^3.8.11",
     "gulp-bump": "^0.3.0",
     "gulp-eslint": "^0.9.0",
-    "gulp-git": "^1.2.0",
+    "gulp-git": "^1.2.3",
     "gulp-istanbul": "^0.9.0",
     "gulp-mocha": "^2.0.1",
     "istanbul": "^0.3.13",
