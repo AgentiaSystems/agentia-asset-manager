@@ -3,8 +3,8 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var AssetManager = require('../../');
-var errors = require('../../lib/errors');
+var AssetManager = require('../../../');
+var errors = require('../../../lib/errors');
 
 describe('AssetManager.registerModule()', function() {
 
@@ -14,7 +14,7 @@ describe('AssetManager.registerModule()', function() {
 
       before(function() {
         this.id = 'module';
-        this.modulePath = require.resolve('../fixtures/test-module-a');
+        this.modulePath = require.resolve('../../fixtures/test-module-a');
         this.am = new AssetManager();
         this.am.registerModule(this.id, this.modulePath);
       });
@@ -37,7 +37,7 @@ describe('AssetManager.registerModule()', function() {
 
       before(function() {
         this.id = 'testModuleA';
-        this.modulePath = require.resolve('../fixtures/test-module-a');
+        this.modulePath = require.resolve('../../fixtures/test-module-a');
         this.am = new AssetManager();
         this.am.registerModule(this.modulePath);
       });
@@ -64,7 +64,7 @@ describe('AssetManager.registerModule()', function() {
 
       before(function() {
         this.id = 'module';
-        this.modulePath = require.resolve('../fixtures/test-module-a');
+        this.modulePath = require.resolve('../../fixtures/test-module-a');
         this.am = new AssetManager();
         this.am.registerInstance('a', 1);
         this.am.registerInstance('b', 2);
@@ -89,7 +89,7 @@ describe('AssetManager.registerModule()', function() {
 
       before(function() {
         this.id = 'testModuleA';
-        this.moduleA = require.resolve('../fixtures/test-module-a');
+        this.moduleA = require.resolve('../../fixtures/test-module-a');
         this.am = new AssetManager();
         this.am.registerInstance('a', 1);
         this.am.registerInstance('b', 2);
@@ -115,8 +115,8 @@ describe('AssetManager.registerModule()', function() {
       before(function() {
         this.am = new AssetManager();
         this.id = 'module';
-        this.moduleA = require.resolve('../fixtures/test-module-a');
-        this.moduleB = require.resolve('../fixtures/test-module-b');
+        this.moduleA = require.resolve('../../fixtures/test-module-a');
+        this.moduleB = require.resolve('../../fixtures/test-module-b');
         this.am.registerInstance('a', 1);
         this.am.registerInstance('b', 2);
         this.am.registerModule(this.moduleA, true);

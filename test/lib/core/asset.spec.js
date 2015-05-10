@@ -3,8 +3,8 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var Asset = require('../../lib/core/asset');
-var errors = require('../../lib/errors');
+var Asset = require('../../../lib/core/asset');
+var errors = require('../../../lib/errors');
 
 describe('Asset()', function() {
 
@@ -136,7 +136,7 @@ describe('Asset()', function() {
   describe('creation of a non-injectable module asset', function() {
 
     before(function() {
-      this.modulePath = require.resolve('../fixtures/test-module-a');
+      this.modulePath = require.resolve('../../fixtures/test-module-a');
       this.asset = new Asset('module', this.modulePath, {
         module: true,
         injectable: false
@@ -160,7 +160,7 @@ describe('Asset()', function() {
     });
 
     it('should allow the retrival of the asset value', function() {
-      expect(this.asset.value).to.equal(require('../fixtures/test-module-a'));
+      expect(this.asset.value).to.equal(require('../../fixtures/test-module-a'));
     });
 
   });
@@ -168,7 +168,7 @@ describe('Asset()', function() {
   describe('creation of an injectable module asset', function() {
 
     before(function() {
-      this.modulePath = require.resolve('../fixtures/test-module-a');
+      this.modulePath = require.resolve('../../fixtures/test-module-a');
       this.asset = new Asset('key', this.modulePath, {
         module: true,
         injectable: true
@@ -196,7 +196,7 @@ describe('Asset()', function() {
     });
 
     it('shoud allow the retrieval of the asset factory', function() {
-      expect(this.asset.factory).to.equal(require('../fixtures/test-module-a'));
+      expect(this.asset.factory).to.equal(require('../../fixtures/test-module-a'));
     });
 
   });
@@ -204,7 +204,7 @@ describe('Asset()', function() {
   describe('creating of a module asset, yielding a constant asset', function() {
 
     before(function() {
-      this.modulePath = require.resolve('../fixtures/test-module-d');
+      this.modulePath = require.resolve('../../fixtures/test-module-d');
       this.asset = new Asset('key', this.modulePath, {
         module: true,
         injectable: true
@@ -229,7 +229,7 @@ describe('Asset()', function() {
 
     it('should allow the retrieval of the Asset value', function() {
       expect(this.asset.value)
-        .to.deep.equal(require('../fixtures/test-module-d'));
+        .to.deep.equal(require('../../fixtures/test-module-d'));
     });
 
     it('shoud not have a factory', function() {
