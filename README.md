@@ -42,11 +42,33 @@ Asset Type | Description
 Create a new AssetManager container instance
 
 ```js
-var container = AssetManager.create()
+AssetManager.create([compatibility])
+```
+
+param | type | description | default
+----- | :--: | ----------- | -------
+compatibility | `boolean` | Determines whether compatibility methods will also be added | false
+
+#### Example
+
+```js
+var instanceA = AssetManager.create(); // <-- without compatibility methods
+var instanceB = AssetManager.create(true); // <-- with compatiblity methods
 ```
 
 ### .mixin()
 Add AssetManager functionality to an existing object
+
+```js
+AssetManager.mixin(instance,[compatibility])
+```
+
+param | type | description | default
+----- | :--: | ----------- | -------
+instance | `object` | Object instance onto which AssetManager functionality will be added | none
+compatibility | `boolean` | Determines whether compatibility methods will also be added | false
+
+#### Example
 
 ```js
 var instance = {
@@ -55,11 +77,26 @@ var instance = {
   key: 'value'
 };
 
-AssetManager.mixin(instance);
+AssetManager.mixin(instance); // <-- without compatibility methods
+
+// --- OR ---
+
+AssetManager.mixin(instance, true); // <-- with compatibility methods
 ```
 
 ### .attach()
 Attach AssetManager functionality to an existing class
+
+```js
+AssetManager.attach(class,[compatibility])
+```
+
+param | type | description | default
+----- | :--: | ----------- | -------
+class | `function` | Class onto which AssetManager functionality will be added | none
+compatibility | `boolean` | Determines whether compatibility methods will also be added | false
+
+#### Example
 
 ```js
 function MyClass() {
@@ -69,7 +106,11 @@ function MyClass() {
 MyClass.prototype.fnA = function() {};
 MyClass.prototype.fnB = function() {};
 
-AssetManager.attach(myClass);
+AssetManager.attach(MyClass); // <-- without compatibility methods
+
+// --- OR ---
+
+AssetManager.attach(MyClass); // <-- with compatibility methods
 ```
 
 ## Core API
