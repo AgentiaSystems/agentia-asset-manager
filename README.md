@@ -18,7 +18,7 @@ npm install --save agentia-asset-manager
 ## Usage
 ```js
 var AssetManager = require('agentia-asset-manager');
-var container = new AssetManager();
+var container = AssetManger.create();
 
 ```
 
@@ -35,6 +35,42 @@ Asset Type | Description
 `instance` | Anything other than what is listed above (ie. `string`, `number`, `date`,  `array` or `object`). Objects registered as an `instance` will be registered as a single asset, unlike a `hash` which will register every property as a distinct asset.
 
 > NOTE: Simple (non-injectable) function assets will always resolve to the actual function, where as factory (injectable) function assets will be injected with their required dependencies prior to resolution, will always resolve to their returned value.
+
+## Static API
+
+### .create()
+Create a new AssetManager container instance
+
+```js
+var container = AssetManager.create()
+```
+
+### .mixin()
+Add AssetManager functionality to an existing object
+
+```js
+var instance = {
+  fnA: function() {},
+  fnB: function() {},
+  key: 'value'
+};
+
+AssetManager.mixin(instance);
+```
+
+### .attach()
+Attach AssetManager functionality to an existing class
+
+```js
+function MyClass() {
+  this.__key = 'value';
+  return this;
+}
+MyClass.prototype.fnA = function() {};
+MyClass.prototype.fnB = function() {};
+
+AssetManager.attach(myClass);
+```
 
 ## Core API
 
@@ -251,6 +287,8 @@ var resultFn1 = container.resolve('fn1'); // <-- resolve to function "fn"
 var resultFn2 = container.resolve(fn2);   // <-- resolves to 65
 var override = container.resolve(fn1, { a: 1, b: 2}); // <-- resolves to 3
 ```
+
+## Helpers
 
 ### .isRegistered()
 Determines if an asset is registered.
