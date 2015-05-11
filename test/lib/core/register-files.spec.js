@@ -13,7 +13,7 @@ describe('AssetManager.registerFiles()', function() {
 
     before(function() {
       this.pattern = path.join(__dirname, '../../fixtures/*.js');
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
       this.am.registerFiles(this.pattern);
     });
 
@@ -45,7 +45,7 @@ describe('AssetManager.registerFiles()', function() {
 
     before(function() {
       this.pattern = path.join(__dirname, '../../fixtures/*.js');
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
       this.am.registerInstance('a', 99);
       this.am.registerInstance('b', 1);
       this.am.registerFiles(this.pattern, true);
@@ -75,7 +75,7 @@ describe('AssetManager.registerFiles()', function() {
   describe('calling .registerFiles() with invalid arguments', function() {
 
     beforeEach(function() {
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
     });
 
     afterEach(function() {

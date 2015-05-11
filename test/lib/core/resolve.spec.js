@@ -14,7 +14,7 @@ describe('AssetManager.resolve()', function() {
   describe('calling .resolve() with invalid arguments', function() {
 
     before(function() {
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
       sinon.stub(this.am, 'resolveAsset');
       sinon.stub(this.am, 'invoke');
     });
@@ -61,7 +61,7 @@ describe('AssetManager.resolve()', function() {
   describe('calling .resolve() with invalid arguments', function() {
 
     beforeEach(function() {
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
     });
 
     afterEach(function() {

@@ -13,7 +13,7 @@ describe('AssetManager.remove()', function() {
       this.id = 'id';
       this.value = function() {};
 
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
       this.am.registerFunction(this.id, this.value, true);
     });
 
@@ -33,7 +33,7 @@ describe('AssetManager.remove()', function() {
       this.id = 'id';
       this.value = 'value';
 
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
       this.am.registerInstance(this.id, this.value);
     });
 
@@ -52,7 +52,7 @@ describe('AssetManager.remove()', function() {
 
     before(function() {
       this.id = 'notfound';
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
     });
 
     after(function() {
@@ -68,7 +68,7 @@ describe('AssetManager.remove()', function() {
   describe('calling .remove() with invalid arguments', function() {
 
     beforeEach(function() {
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
     });
 
     afterEach(function() {

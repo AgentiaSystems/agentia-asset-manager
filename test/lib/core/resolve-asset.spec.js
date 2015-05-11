@@ -16,7 +16,7 @@ describe('AssetManager.resolveAsset()', function() {
       before(function() {
         this.id = 'id';
         this.value = 'value';
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.id, this.value);
       });
 
@@ -39,7 +39,7 @@ describe('AssetManager.resolveAsset()', function() {
         this.override = {
           id: 'other data'
         };
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.id, this.value);
       });
 
@@ -70,7 +70,7 @@ describe('AssetManager.resolveAsset()', function() {
           b: 2
         };
 
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.dataId, this.data);
         this.am.registerFunction(this.fnId, this.fn, true);
       });
@@ -107,7 +107,7 @@ describe('AssetManager.resolveAsset()', function() {
           b: 2
         };
 
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.dataId, this.data);
         this.am.registerFunction(this.fnId, this.fn, true);
       });
@@ -138,7 +138,7 @@ describe('AssetManager.resolveAsset()', function() {
           return a;
         };
         this.asset = new Asset('temp', this.fn, { injectable: true });
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.id, this.value);
       });
 
@@ -165,7 +165,7 @@ describe('AssetManager.resolveAsset()', function() {
           return a;
         };
         this.asset = new Asset('temp', this.fn, { injectable: true });
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.id, this.value);
       });
 
@@ -193,7 +193,7 @@ describe('AssetManager.resolveAsset()', function() {
           return a + this.b;
         };
         this.asset = new Asset('temp', this.fn, { injectable: true });
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.id, this.value);
       });
 
@@ -224,7 +224,7 @@ describe('AssetManager.resolveAsset()', function() {
           return a + this.b;
         };
         this.asset = new Asset('temp', this.fn, { injectable: true });
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.id, this.value);
       });
 
@@ -245,7 +245,7 @@ describe('AssetManager.resolveAsset()', function() {
   describe('calling .resolveAsset() with invalid arguments', function() {
 
     beforeEach(function() {
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
     });
 
     afterEach(function() {

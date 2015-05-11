@@ -18,7 +18,7 @@ describe('AssetManager.registerHash()', function() {
         key4: { key: 'value '},
         key5: function() {}
       };
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
       this.am.registerHash(this.hash);
     });
 
@@ -64,7 +64,7 @@ describe('AssetManager.registerHash()', function() {
           return key2 * 2;
         }
       };
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
       this.am.registerHash(this.hash, true);
     });
 
@@ -97,7 +97,7 @@ describe('AssetManager.registerHash()', function() {
   describe('calling .registerHash() with invalid arguments', function() {
 
     beforeEach(function() {
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
     });
 
     afterEach(function() {

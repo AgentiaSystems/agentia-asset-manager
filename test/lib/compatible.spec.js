@@ -18,7 +18,7 @@ describe('AssetManager() compatibility methods ', function() {
     before(function() {
       this.id = 'name';
 
-      this.am = new AssetManager();
+      this.am = AssetManager.create(true);
       sinon.stub(this.am, 'resolve');
       this.am.register(this.id, 'value');
       this.am.get(this.id);
@@ -50,7 +50,7 @@ describe('AssetManager() compatibility methods ', function() {
 
       before(function() {
         this.id = require.resolve('../fixtures/test-module-a');
-        this.am = new AssetManager();
+        this.am = AssetManager.create(true);
         sinon.stub(this.am, 'registerModule');
         this.am.load(this.id);
       });
@@ -75,7 +75,7 @@ describe('AssetManager() compatibility methods ', function() {
 
       before(function() {
         this.id = path.join(__dirname, '../fixtures');
-        this.am = new AssetManager();
+        this.am = AssetManager.create(true);
         sinon.stub(this.am, 'registerFiles');
         this.am.load(this.id);
       });
@@ -99,7 +99,7 @@ describe('AssetManager() compatibility methods ', function() {
     describe('calling .load() with invalid arguments', function() {
 
       beforeEach(function() {
-        this.am = new AssetManager();
+        this.am = AssetManager.create(true);
       });
 
       afterEach(function() {

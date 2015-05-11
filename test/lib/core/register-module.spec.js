@@ -15,7 +15,7 @@ describe('AssetManager.registerModule()', function() {
       before(function() {
         this.id = 'module';
         this.modulePath = require.resolve('../../fixtures/test-module-a');
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerModule(this.id, this.modulePath);
       });
 
@@ -38,7 +38,7 @@ describe('AssetManager.registerModule()', function() {
       before(function() {
         this.id = 'testModuleA';
         this.modulePath = require.resolve('../../fixtures/test-module-a');
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerModule(this.modulePath);
       });
 
@@ -65,7 +65,7 @@ describe('AssetManager.registerModule()', function() {
       before(function() {
         this.id = 'module';
         this.modulePath = require.resolve('../../fixtures/test-module-a');
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance('a', 1);
         this.am.registerInstance('b', 2);
         this.am.registerModule(this.id, this.modulePath, true);
@@ -90,7 +90,7 @@ describe('AssetManager.registerModule()', function() {
       before(function() {
         this.id = 'testModuleA';
         this.moduleA = require.resolve('../../fixtures/test-module-a');
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance('a', 1);
         this.am.registerInstance('b', 2);
         this.am.registerModule(this.moduleA, true);
@@ -113,7 +113,7 @@ describe('AssetManager.registerModule()', function() {
     describe('requires another module', function() {
 
       before(function() {
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.id = 'module';
         this.moduleA = require.resolve('../../fixtures/test-module-a');
         this.moduleB = require.resolve('../../fixtures/test-module-b');
@@ -142,7 +142,7 @@ describe('AssetManager.registerModule()', function() {
   describe('calling .registerModule() with invalmodulePath arguments', function() {
 
     beforeEach(function() {
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
     });
 
     afterEach(function() {

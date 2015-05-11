@@ -11,7 +11,7 @@ describe('AssetManager.registerInstance()', function() {
   describe('registering a constant dependency (string)', function() {
 
     before(function() {
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
       this.id = 'id';
       this.data = 'data';
       this.am.registerInstance(this.id, this.data);
@@ -38,7 +38,7 @@ describe('AssetManager.registerInstance()', function() {
   describe('registering a constant dependency (object)', function() {
 
     before(function() {
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
       this.id = 'id';
       this.data = { key: 'data' };
       this.am.registerInstance(this.id, this.data);
@@ -65,7 +65,7 @@ describe('AssetManager.registerInstance()', function() {
   describe('registering a constant dependency (array)', function() {
 
     before(function() {
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
       this.id = 'id';
       this.data = [ 'data1', 'data2', 'data3' ];
       this.am.registerInstance(this.id, this.data);
@@ -92,7 +92,7 @@ describe('AssetManager.registerInstance()', function() {
   describe('calling .registerInstance() with invalid arguments', function() {
 
     beforeEach(function() {
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
     });
 
     afterEach(function() {

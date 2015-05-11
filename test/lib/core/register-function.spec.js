@@ -16,7 +16,7 @@ describe('AssetManager.registerFunction()', function() {
       this.fn = function(age) {
         return age;
       };
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
       this.am.registerInstance('age', this.data);
       this.am.registerFunction(this.id, this.fn, true);
     });
@@ -42,7 +42,7 @@ describe('AssetManager.registerFunction()', function() {
       this.fn = function(age) {
         return age;
       };
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
       this.am.registerFunction(this.id, this.fn);
     });
 
@@ -62,7 +62,7 @@ describe('AssetManager.registerFunction()', function() {
 
   describe('calling .registerFunction() with invalid arguments', function() {
     beforeEach(function() {
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
     });
 
     afterEach(function() {
