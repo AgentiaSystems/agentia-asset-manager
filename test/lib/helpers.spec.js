@@ -73,7 +73,7 @@ describe('Helpers', function() {
       before(function() {
         this.is = 'is';
         this.isnot = 'isnot';
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.is, 'value');
       });
 
@@ -105,7 +105,7 @@ describe('Helpers', function() {
         this.is = 'is';
         this.isnot = 'isnot';
         this.invalid = 'invalid';
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.is, 'value');
         this.am.registerFunction(this.isnot, function() {}, true);
       });
@@ -142,7 +142,7 @@ describe('Helpers', function() {
         this.is = 'is';
         this.isnot = 'isnot';
         this.invalid = 'invalid';
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerModule(this.is, require.resolve('../fixtures/test-module-a'));
         this.am.registerFunction(this.isnot, function() {}, true);
       });
@@ -179,7 +179,7 @@ describe('Helpers', function() {
         this.is = 'is';
         this.isnot = 'isnot';
         this.invalid = 'invalid';
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerFunction(this.is, function() {}, true);
         this.am.registerInstance(this.isnot, 'value');
       });
@@ -216,7 +216,7 @@ describe('Helpers', function() {
         this.is = 'is';
         this.isnot = 'isnot';
         this.invalid = 'invalid';
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerFunction(this.is, function() {}, true);
         this.am.registerFunction(this.isnot, function() {}, false);
       });
@@ -256,7 +256,7 @@ describe('Helpers', function() {
         this.fn = function(a) {
           return a;
         };
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.is, 'resolved');
         this.am.registerFunction(this.isnot, this.fn, true);
       });

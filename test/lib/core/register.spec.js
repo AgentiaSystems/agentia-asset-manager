@@ -22,7 +22,7 @@ describe('AssetManager.register()', function() {
             return key2 * 2;
           }
         };
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.register(this.hash);
       });
 
@@ -59,7 +59,7 @@ describe('AssetManager.register()', function() {
     describe('with invokeion disabled', function() {
 
       before(function() {
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.hash = {
           key1: 'data1',
           key2: 123,
@@ -115,7 +115,7 @@ describe('AssetManager.register()', function() {
           return age;
         };
 
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.dataId, this.data);
         this.am.register(this.fnId, this.fn);
       });
@@ -141,7 +141,7 @@ describe('AssetManager.register()', function() {
         this.fn = function(age) {
           return age;
         };
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.register(this.id, this.fn, false);
       });
 
@@ -168,7 +168,7 @@ describe('AssetManager.register()', function() {
       before(function() {
         this.id = 'id';
         this.data = 'data';
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.register(this.id, this.data);
       });
 
@@ -195,7 +195,7 @@ describe('AssetManager.register()', function() {
       before(function() {
         this.id = 'id';
         this.data = { key: 'data' };
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.register(this.id, this.data);
       });
 
@@ -222,7 +222,7 @@ describe('AssetManager.register()', function() {
       before(function() {
         this.id = 'id';
         this.data = [ 'data1', 'data2', 'data3' ];
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.register(this.id, this.data);
       });
 
@@ -249,7 +249,7 @@ describe('AssetManager.register()', function() {
   describe('calling .register() with invalid arguments', function() {
 
     beforeEach(function() {
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
     });
 
     afterEach(function() {

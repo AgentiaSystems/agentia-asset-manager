@@ -19,7 +19,7 @@ describe('AssetManager.invoke()', function() {
           return a;
         };
 
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.id, this.value);
       });
 
@@ -46,7 +46,7 @@ describe('AssetManager.invoke()', function() {
           return a;
         };
 
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.id, this.value);
       });
 
@@ -74,7 +74,7 @@ describe('AssetManager.invoke()', function() {
           return a + this.b;
         };
 
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.id, this.value);
       });
 
@@ -105,7 +105,7 @@ describe('AssetManager.invoke()', function() {
           return a + this.b;
         };
 
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerInstance(this.id, this.value);
       });
 
@@ -133,7 +133,7 @@ describe('AssetManager.invoke()', function() {
         this.fnC = function(resultA, resultB) {
           return resultA + resultB;
         };
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerFunction('resultA', this.fnA, true);
         this.am.registerFunction('resultB', this.fnB, true);
         this.am.registerInstance('a', 1);
@@ -168,7 +168,7 @@ describe('AssetManager.invoke()', function() {
         this.fnC = function(resultB) {
           return resultB;
         };
-        this.am = new AssetManager();
+        this.am = AssetManager.create();
         this.am.registerFunction('resultA', this.fnA, true);
         this.am.registerFunction('resultB', this.fnB, true);
         this.am.registerFunction('resultC', this.fnC, true);
@@ -200,7 +200,7 @@ describe('AssetManager.invoke()', function() {
   describe('calling .invoke() with invalid arguments', function() {
 
     beforeEach(function() {
-      this.am = new AssetManager();
+      this.am = AssetManager.create();
     });
 
     afterEach(function() {

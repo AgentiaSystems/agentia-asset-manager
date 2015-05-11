@@ -7,7 +7,7 @@ var AssetManager = require('../../lib/asset-manager');
 
 describe('AssetManager()', function() {
   before(function() {
-    this.am = new AssetManager();
+    this.am = AssetManager.create();
   });
 
   it('should be a function', function() {

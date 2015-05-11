@@ -10,7 +10,7 @@ var errors = require('../../../lib/errors');
 describe('AssetManager.registerAsset()', function() {
 
   before(function() {
-    this.am = new AssetManager();
+    this.am = AssetManager.create();
   });
 
   after(function() {
