@@ -18,7 +18,7 @@ npm install --save agentia-asset-manager
 ## Usage
 ```js
 var AssetManager = require('agentia-asset-manager');
-var container = new AssetManager();
+var container = AssetManger.create();
 
 ```
 
@@ -35,6 +35,83 @@ Asset Type | Description
 `instance` | Anything other than what is listed above (ie. `string`, `number`, `date`,  `array` or `object`). Objects registered as an `instance` will be registered as a single asset, unlike a `hash` which will register every property as a distinct asset.
 
 > NOTE: Simple (non-injectable) function assets will always resolve to the actual function, where as factory (injectable) function assets will be injected with their required dependencies prior to resolution, will always resolve to their returned value.
+
+## Static API
+
+### .create()
+Create a new AssetManager container instance
+
+```js
+AssetManager.create([compatibility])
+```
+
+param | type | description | default
+----- | :--: | ----------- | -------
+compatibility | `boolean` | Determines whether compatibility methods will also be added | false
+
+#### Example
+
+```js
+var instanceA = AssetManager.create(); // <-- without compatibility methods
+var instanceB = AssetManager.create(true); // <-- with compatiblity methods
+```
+
+### .mixin()
+Add AssetManager functionality to an existing object
+
+```js
+AssetManager.mixin(instance,[compatibility])
+```
+
+param | type | description | default
+----- | :--: | ----------- | -------
+instance | `object` | Object instance onto which AssetManager functionality will be added | none
+compatibility | `boolean` | Determines whether compatibility methods will also be added | false
+
+#### Example
+
+```js
+var instance = {
+  fnA: function() {},
+  fnB: function() {},
+  key: 'value'
+};
+
+AssetManager.mixin(instance); // <-- without compatibility methods
+
+// --- OR ---
+
+AssetManager.mixin(instance, true); // <-- with compatibility methods
+```
+
+### .attach()
+Attach AssetManager functionality to an existing class
+
+```js
+AssetManager.attach(class,[compatibility])
+```
+
+param | type | description | default
+----- | :--: | ----------- | -------
+class | `function` | Class onto which AssetManager functionality will be added | none
+compatibility | `boolean` | Determines whether compatibility methods will also be added | false
+
+#### Example
+
+```js
+function MyClass() {
+  this.__key = 'value';
+  return this;
+}
+MyClass.prototype.fnA = function() {};
+MyClass.prototype.fnB = function() {};
+
+AssetManager.attach(MyClass); // <-- without compatibility methods
+
+// --- OR ---
+
+AssetManager.attach(MyClass); // <-- with compatibility methods
+```
 
 ## Core API
 
@@ -251,6 +328,8 @@ var resultFn1 = container.resolve('fn1'); // <-- resolve to function "fn"
 var resultFn2 = container.resolve(fn2);   // <-- resolves to 65
 var override = container.resolve(fn1, { a: 1, b: 2}); // <-- resolves to 3
 ```
+
+## Helpers
 
 ### .isRegistered()
 Determines if an asset is registered.
